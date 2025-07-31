@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.hero_animation{
+  background-image: linear-gradient(147.92deg, hsla(239,76%,53%,0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%);
+  animation: changeBackgroundColor 5s infinite alternate;
+}
+
+@keyframes changeBackgroundColor {
+  0%,100%{
+    opacity: 1;
+    background: linear-gradient(147.92deg, hsla(239,76%,53%,0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%);
+  }
+  16.67%{
+    opacity: 0.9;
+    background: linear-gradient(147.92deg, hsla(249, 94%, 56%, 0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%)
+  }
+  33.33%{
+    opacity: 0.8;
+    background: linear-gradient(147.92deg, hsla(262, 100%, 56%, 0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%)
+  }
+  50%{
+    opacity: 0.6;
+    background: linear-gradient(147.92deg, hsla(272, 100%, 56%, 0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%)
+  }
+  66.67%{
+    opacity: 0.5;
+    background: linear-gradient(147.92deg, hsla(273, 100%, 53%, 0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%)
+  }
+  83.33%{
+    opacity: 0.4;
+    background: linear-gradient(147.92deg, hsla(283, 100%, 50%, 0.456) 10.41%, hsla(281, 100%, 50%, 0) 89.25%)
+  }
+}
+
+/* Hide arrows for WebKit browsers */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
