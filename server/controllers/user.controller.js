@@ -13,7 +13,7 @@ import cloudinary from "cloudinary"
 
 
  const createActivationToken = (user) => {
-  const activationCode = Math.floor(1000 + Math.random() * 9000).toString();
+  const activationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
   const activationToken = jwt.sign(
     {
@@ -43,7 +43,6 @@ import cloudinary from "cloudinary"
     };
 
     const activationToken = createActivationToken(user);
-    console.log(activationToken);
     const activationCode = activationToken.activationCode;
 
     const data = { user: { name: user.name }, activationCode };
@@ -67,6 +66,7 @@ import cloudinary from "cloudinary"
       res.status(201).json({
         success: true,
         message: `Please check your email: ${user.email} to create your account!`,
+        activationToken: activationToken.activationToken,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 400));
@@ -79,7 +79,12 @@ import cloudinary from "cloudinary"
 
  const activateUser = CatchAsyncError(async (req, res, next) => {
   try {
-    const  activationToken = req.cookies.activation_token
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return next(new ErrorHandler("No token provided", 401));
+    }
+
+    const activationToken = authHeader.split(" ")[1];
     const {activationCode}  = req.body;
 
     const newUser = jwt.verify(
@@ -266,9 +271,7 @@ const updatePassword = CatchAsyncError(async(req,res,next) =>{
     if(!user){
       return next(ErrorHandler(error.message,400))
     }
-    console.log("hi");
     const isPasswordMatch = await user.comparePassword(oldPassword)
-    console.log(isPasswordMatch);
     if(!isPasswordMatch){
       return next(new ErrorHandler("Invalid current password",400))
     }

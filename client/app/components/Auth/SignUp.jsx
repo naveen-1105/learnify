@@ -1,12 +1,29 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
+import { useRegisterMutation } from "@/redux/feature/auth/authApi";
+import toast from "react-hot-toast";
 
 const SignUp = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
+  const [registration,{data,error,isSuccess}] = useRegisterMutation();
+
+  useEffect(() => {
+    if(isSuccess){
+      const message = data?.message || "Registeration Successful";
+      toast.success(message)
+      setRoute("Verification");
+    }
+    if(error){
+      if("data" in error){
+        const errorData = error;
+        toast.error(errorData.data.message);
+      }
+    }
+  },[isSuccess,error]);
 
   const schema = Yup.object().shape({
     name: Yup.string()
@@ -27,8 +44,12 @@ const SignUp = ({ setRoute, setOpen }) => {
       password: "",
     },
     validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async({name,email,password}) => {
+      const data = {
+        name,email,password
+      };
+      await registration(data);
+
     },
   });
 
@@ -105,7 +126,7 @@ const SignUp = ({ setRoute, setOpen }) => {
           <p className="text-red-500 text-sm absolute top-[275px]">{errors.password}</p>
         )}
         <button className=" w-full bg-blue-500 text-white p-2 rounded-4xl border border-blue-600 cursor-pointer"
-        onClick={() => setRoute("Verification")}>
+        onClick={handleSubmit}>
           Sign Up
         </button>
       </form>

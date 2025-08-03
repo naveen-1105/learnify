@@ -1,13 +1,30 @@
 "use client";
+import { useLoginMutation } from "@/redux/feature/auth/authApi";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 const Login = ({ setOpen, setRoute }) => {
   const [show, setShow] = useState(false);
+  const [Login,{data,isSuccess,isError,error}] = useLoginMutation();
+
+  useEffect(() => {
+    if(isSuccess){
+      const message = data?.message || "Login Successful";
+      toast.success(message)
+      setOpen(false)
+    }
+    if(error){
+      if("data" in error){
+        const errorData = error;
+        toast.error(errorData.data.message);
+      }
+    }
+  },[isSuccess,error])
 
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -24,8 +41,9 @@ const Login = ({ setOpen, setRoute }) => {
       password: "",
     },
     validationSchema: schema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async({email,password}) => {
+      const data = { email,password}
+      await Login(data);
     },
   });
 
