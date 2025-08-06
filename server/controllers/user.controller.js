@@ -12,6 +12,7 @@ import cloudinary from "cloudinary"
 
 
 
+
  const createActivationToken = (user) => {
   const activationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -219,13 +220,13 @@ const getUserInfo = CatchAsyncError(async(req,res,next) => {
 const socialAuth = CatchAsyncError(async(req,res,next) => {
   try {
     const {email,name,avatar} = req.body
-    const user = userModel.findOne({email});
+    const user = await userModel.findOne({email});
     if(!user){
-      const newUser = userModel.create({email,name,avatar})
+      const newUser = await userModel.create({email,name,avatar})
       sendToken(newUser, 200, res);
     }
     else{
-      sendToken(newUser, 200, res);
+      sendToken(user, 200, res);
     }
   } catch (error) {
     return next(new ErrorHandler(error.message,400))

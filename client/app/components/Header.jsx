@@ -11,11 +11,38 @@ import Verification from "../components/Auth/Verification";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import img from "../assets/img.png"
+import { useSession } from "next-auth/react";
+import { useSocialAuthMutation } from "@/redux/feature/auth/authApi";
+import toast from "react-hot-toast";
+import Loader from "./Loader";
 
 const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
   const {user} = useSelector((state) => state.auth);
+  const {data} = useSession();
+  const[socialAuth,{isSuccess,error,isLoading}] = useSocialAuthMutation();
+
+  const [manualLogin, setManualLogin] = useState(false);
+
+useEffect(() => {
+  if (!user && data) {
+    setManualLogin(true);
+    socialAuth({
+      email: data?.user?.email,
+      name: data?.user?.name,
+      avatar: data?.user?.image
+    });
+  }
+}, [data, user]);
+
+useEffect(() => {
+  if (isSuccess && manualLogin) {
+    toast.success("Login successfully");
+    setManualLogin(false);
+  }
+}, [isSuccess, manualLogin,data]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +91,7 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
               { user ? 
               <Link href={"/profile"}>
                 <Image 
-                src={user.avatar.url ? user.avatar.url : img}
+                src={user.avatar ? user.avatar.url : img}
                 alt="profile picture"
                 width={30}
                 height={30}

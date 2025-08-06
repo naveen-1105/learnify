@@ -6,10 +6,13 @@ import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
 import { useRegisterMutation } from "@/redux/feature/auth/authApi";
 import toast from "react-hot-toast";
+import Loader from "../Loader";
 
 const SignUp = ({ setRoute, setOpen }) => {
   const [show, setShow] = useState(false);
-  const [registration,{data,error,isSuccess}] = useRegisterMutation();
+  const [registration,{data,error,isSuccess,isLoading}] = useRegisterMutation();
+
+  
 
   useEffect(() => {
     if(isSuccess){
@@ -55,6 +58,10 @@ const SignUp = ({ setRoute, setOpen }) => {
 
   const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
     formik;
+
+    if(isLoading){
+    return <Loader/>
+  }
 
   return (
     <>
