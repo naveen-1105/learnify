@@ -16,8 +16,7 @@ const page = () => {
 
   return (
     <div>
-      <Protected>
-        <MetaData
+      <MetaData
           title = {`${user?.name} Profile`}
           description="Learnify is a comprehensive learning platform."
         />
@@ -27,6 +26,7 @@ const page = () => {
         activeItem={activeItem}
         setRoute={setRoute}
         route={route}/>
+      <Protected>
         <Profile/>
       </Protected>
     </div>

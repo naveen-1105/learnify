@@ -1,23 +1,27 @@
-import dotenv from "dotenv"
-dotenv.config()
+import dotenv from "dotenv";
+dotenv.config();
 import { redis } from "./redis.js";
 
-const accessTokenExpire = parseInt(process.env.ACCESS_TOKEN_EXPIRE || '300', 10) * 1000 ;
-const refreshTokenExpire = parseInt(process.env.REFRESH_TOKEN_EXPIRE || '259200', 10) * 1000;
+const accessTokenExpire =
+  parseInt(process.env.ACCESS_TOKEN_EXPIRE || "300", 10) * 1000;
+const refreshTokenExpire =
+  parseInt(process.env.REFRESH_TOKEN_EXPIRE || "259200", 10) * 1000;
 
-export  const accessTokenOptions = {
-    expires: new Date(Date.now() + accessTokenExpire),
-    maxAge: accessTokenExpire,
-    httpOnly: true,
-    sameSite: 'lax',
-  };
+export const accessTokenOptions = {
+  expires: new Date(Date.now() + accessTokenExpire),
+  maxAge: accessTokenExpire,
+  httpOnly: true,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production",
+};
 
-export  const refreshTokenOptions = {
-    expires: new Date(Date.now() + refreshTokenExpire),
-    maxAge: refreshTokenExpire,
-    httpOnly: true,
-    sameSite: 'lax',
-  };
+export const refreshTokenOptions = {
+  expires: new Date(Date.now() + refreshTokenExpire),
+  maxAge: refreshTokenExpire,
+  httpOnly: true,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production",
+};
 
 export const sendToken = (user, statusCode, res) => {
   const accessToken = user.SignAccessToken();
@@ -25,9 +29,7 @@ export const sendToken = (user, statusCode, res) => {
 
   redis.set(String(user._id), JSON.stringify(user));
 
-  
-
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     accessTokenOptions.secure = true;
     refreshTokenOptions.secure = true;
   }

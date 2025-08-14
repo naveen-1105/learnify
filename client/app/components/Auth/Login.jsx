@@ -11,7 +11,7 @@ import { signIn } from "next-auth/react";
 
 const Login = ({ setOpen, setRoute }) => {
   const [show, setShow] = useState(false);
-  const [Login, { data, isSuccess, isError, error }] = useLoginMutation();
+  const [Login, { data, isSuccess, error }] = useLoginMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -125,7 +125,8 @@ const Login = ({ setOpen, setRoute }) => {
             onClick={() => signIn("google")}
           />
           <FaGithub size={30} className="cursor-pointer" 
-          onClick={() => signIn("github")}/>
+          onClick={() => signIn("github")}
+          />
         </div>
 
         <p className="text-center">

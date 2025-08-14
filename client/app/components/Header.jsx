@@ -12,36 +12,53 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import img from "../assets/img.png"
 import { useSession } from "next-auth/react";
-import { useSocialAuthMutation } from "@/redux/feature/auth/authApi";
+import { useLoginMutation, useLogoutMutation, useSocialAuthMutation } from "@/redux/feature/auth/authApi";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
+import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
 
 const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const {userData,isLoading,refetch} = useLoadUserQuery();
+  const [login,{}] = useLoginMutation();
   const {user} = useSelector((state) => state.auth);
   const {data} = useSession();
-  const[socialAuth,{isSuccess,error,isLoading}] = useSocialAuthMutation();
+  console.log("jai:", JSON.stringify(data));
+  
+  const[socialAuth,{isSuccess}] = useSocialAuthMutation();
+  const [logout,{}] = useLogoutMutation();
 
-  const [manualLogin, setManualLogin] = useState(false);
 
-useEffect(() => {
-  if (!user && data) {
-    setManualLogin(true);
-    socialAuth({
-      email: data?.user?.email,
-      name: data?.user?.name,
-      avatar: data?.user?.image
-    });
-  }
-}, [data, user]);
 
-useEffect(() => {
-  if (isSuccess && manualLogin) {
-    toast.success("Login successfully");
-    setManualLogin(false);
-  }
-}, [isSuccess, manualLogin,data]);
+ useEffect(() => {
+    if(!isLoading){
+      if (!userData) {
+        if (data) {
+          socialAuth({
+            email: data?.user?.email,
+            name: data?.user?.name,
+            avatar: data.user?.image,
+          });
+          refetch();
+        }
+      }
+      if(userData){async() => {
+        await login({
+          email: userData?.user?.email,
+            name: userData?.user?.name,
+            avatar: userData?.user?.image,
+        });
+      } 
+      }
+      if(data === null){
+        if(isSuccess){
+          toast.success("Login Successfully");
+        }
+      }
+      
+    }
+  }, [data, userData,isLoading]);
 
 
   useEffect(() => {
