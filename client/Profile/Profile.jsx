@@ -14,6 +14,8 @@ import {
   useUpdatePasswordMutation,
 } from "@/redux/feature/user/userApi";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -24,9 +26,11 @@ const Profile = () => {
   const [avatarChange, setAvatarChange] = useState(false);
   const [updateAvatar, { isSuccess }] = useUpdateAvatarMutation();
   const fileInputRef = useRef(null);
-  // const {PrevName} = 
-  const [name,setName] = useState(useSelector((state) => state.auth.user.name));
-  const [isNameChanged,setIsNameChanged] = useState(false);
+  // const {PrevName} =
+  const [name, setName] = useState(
+    useSelector((state) => state.auth.user.name)
+  );
+  const [isNameChanged, setIsNameChanged] = useState(false);
 
   const [isUpdatePassword, setIsUpdatePassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -34,23 +38,23 @@ const Profile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [updatePassword, {}] = useUpdatePasswordMutation();
 
-  const [updateUserInfo,{}] = useUpdateInfoMutation();
+  const [updateUserInfo, {}] = useUpdateInfoMutation();
 
   const handleSubmit = async () => {
     if (isUpdatePassword) {
       try {
-        await updatePassword({oldPassword,newPassword:password});
+        await updatePassword({ oldPassword, newPassword: password });
         toast.success("Password updated successfully");
       } catch (error) {
         toast.error("Failed to update password");
       }
     }
-    if(isNameChanged){
+    if (isNameChanged) {
       try {
         await updateUserInfo(name);
         toast.success("Name updated successfully");
       } catch (error) {
-          toast.error("Failed to update password");
+        toast.error("Failed to update password");
       }
     }
     if (avatarChange && selectedFile) {
@@ -98,7 +102,7 @@ const Profile = () => {
 
   return (
     <div className="w-screen h-screen flex">
-      <div className="w-[20%] h-[80%] ml-[30px] mt-[110px] rounded-[10px] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 flex flex-col justify-end items-center">
+      <div className="w-[20%] h-[80%] ml-[30px] mt-[10px] rounded-[10px] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 flex flex-col justify-end items-center">
         <div className="w-full pl-[20px] pb-[10px] flex gap-[10px] justify-start items-center">
           {avatarPreview ? (
             <Image
@@ -130,6 +134,14 @@ const Profile = () => {
           <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer">
             <SiCoursera size={26} /> <span>Enrolled courses</span>
           </p>
+          {user.role === "admin" && (
+            <Link
+              href={"/admin"}
+              className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
+            >
+              <MdOutlineAdminPanelSettings size={30} /> <span>Admin dashboard</span>
+            </Link>
+          )}
           <p
             className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
             onClick={logoutHandler}
@@ -222,8 +234,8 @@ const Profile = () => {
                 value={name}
                 className="w-[80%] border border-white p-[5px] pl-[10px] rounded-2xl bg-transparent text-white"
                 onChange={(e) => {
-                  setName(e.target.value)
-                  setIsNameChanged(true)
+                  setName(e.target.value);
+                  setIsNameChanged(true);
                 }}
               />
             </div>

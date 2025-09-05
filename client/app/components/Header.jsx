@@ -76,8 +76,8 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   };
 
   return (
-    <div className="w-full relative">
-      <div className={`fixed top-0 left-0 w-full h-[80px] z-[80] transition duration-500 ${
+    <div className="w-full">
+      <div className={`top-0 left-0 w-full h-[80px] z-[80] transition duration-500 ${
   active
     ? "dark:bg-gradient-to-b/50 dark:from-gray-900 dark:to-black shadow-xl dark:border-[#ffffff1c]"
     : "border-b dark:border-[#ffffff1c] dark:shadow bg-white dark:bg-[#111827]"

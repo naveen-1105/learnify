@@ -4,6 +4,7 @@ import createCourse from "../service/course.service.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import cloudinary from "cloudinary";
 import { redis } from "../utils/redis.js";
+import axios from "axios"
 
 const uploadCourse = CatchAsyncError(async (req, res, next) => {
   const data = req.body;
@@ -117,6 +118,24 @@ const getAllCourse = CatchAsyncError(async (req, res, next) => {
   }
 });
 
+const generateVideoUrl = CatchAsyncError(async (req, res, next) => {
+  try {
+    const { videoId } = req.body;
+    const response = await axios.post(
+      `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+      { ttl: 300 },
+      {
+        headers: {
+          Accept: "application/json",
+          'Content-Type': 'application/json',
+          Authorization: `Apisecret ${process.env.VDOCIPHER_API_SECRET}`,
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 400));
+  }
+});
 
-
-export { uploadCourse, editCourse, coursePreview, getAllCourse };
+export { uploadCourse, editCourse, coursePreview, getAllCourse,generateVideoUrl };

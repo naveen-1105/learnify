@@ -199,10 +199,7 @@ const updateAccessToken = CatchAsyncError(async(req,res,next) => {
     res.cookie("access_token",accessToken,accessTokenOptions)
     res.cookie("refresh_token",refreshToken,refreshTokenOptions)
 
-    res.status(200).json({
-      status:"success",
-      accessToken,
-    })
+    next();
   } catch (error) {
     return next(new ErrorHandler(error.message,400))
   }
