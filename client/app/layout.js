@@ -5,7 +5,7 @@ import "./globals.css";
 import { Providers } from "./Provider";
 import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
-import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
+import { useLoadUserQuery } from "../redux/feature/api/apiSlice";
 import Loader from "./components/Loader";
 
 // Importing fonts from Google Fonts

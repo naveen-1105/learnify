@@ -12,10 +12,10 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import img from "../assets/img.png"
 import { useSession } from "next-auth/react";
-import { useLoginMutation, useLogoutMutation, useSocialAuthMutation } from "@/redux/feature/auth/authApi";
+import { useLoginMutation, useLogoutMutation, useSocialAuthMutation } from "../../redux/feature/auth/authApi";
 import toast from "react-hot-toast";
 import Loader from "./Loader";
-import { useLoadUserQuery } from "@/redux/feature/api/apiSlice";
+import { useLoadUserQuery } from "../../redux/feature/api/apiSlice";
 
 const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   const [active, setActive] = useState(false);

@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import * as Yup from "yup";
-import { useRegisterMutation } from "@/redux/feature/auth/authApi";
+import { useRegisterMutation } from "../../../redux/feature/auth/authApi";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
 

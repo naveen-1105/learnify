@@ -1,8 +1,8 @@
 'use client'
 import React, { use, useEffect, useState } from "react";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
-import OtpInput from "@/app/utils/OtpInput";
-import { useActivationMutation } from "@/redux/feature/auth/authApi";
+import OtpInput from "../../../app/utils/OtpInput";
+import { useActivationMutation } from "../../../redux/feature/auth/authApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 

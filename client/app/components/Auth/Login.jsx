@@ -1,5 +1,5 @@
 "use client";
-import { useLoginMutation } from "@/redux/feature/auth/authApi";
+import { useLoginMutation } from "../../../redux/feature/auth/authApi";
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useState } from "react";
