@@ -12,7 +12,7 @@ import {
   useUpdateAvatarMutation,
   useUpdateInfoMutation,
   useUpdatePasswordMutation,
-} from "@/redux/feature/user/userApi";
+} from "../redux/feature/user/userApi";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";

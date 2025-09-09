@@ -1,5 +1,5 @@
 'use client'
-import Protected from "@/hooks/useProtected";
+import Protected from "../../hooks/useProtected";
 import React, { useState } from "react";
 import MetaData from "../utils/MetaDataGen";
 import Header from "../components/Header";

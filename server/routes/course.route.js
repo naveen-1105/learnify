@@ -1,9 +1,15 @@
 import express from "express";
 import {
+  addAnswer,
+  addQuestion,
+  addReplyToReview,
+  addReview,
   coursePreview,
+  deleteCourse,
   editCourse,
   generateVideoUrl,
   getAllCourse,
+  getCourseContent,
   uploadCourse,
 } from "../controllers/course.controller.js";
 import { authorizeRoles, isAuthenticated } from "../middleware/auth.js";
@@ -28,6 +34,37 @@ courseRouter.put(
 
 courseRouter.get("/get-course-preview/:id", coursePreview);
 courseRouter.get("/get-courses", getAllCourse);
-courseRouter.post("/getVdoCipherOTP",generateVideoUrl);
+courseRouter.post("/getVdoCipherOTP", generateVideoUrl);
+courseRouter.get(
+  "/get-course-content/:id",
+  updateAccessToken,
+  isAuthenticated,
+  getCourseContent
+);
+courseRouter.put(
+  "/add-question",
+  updateAccessToken,
+  isAuthenticated,
+  addQuestion
+);
+courseRouter.put("/add-answer", updateAccessToken, isAuthenticated, addAnswer);
+courseRouter.put(
+  "/add-review/:id",
+  updateAccessToken,
+  isAuthenticated,
+  addReview
+);
+courseRouter.put(
+  "/add-reply",
+  updateAccessToken,
+  isAuthenticated,
+  addReplyToReview
+);
+courseRouter.delete(
+  "/delete-course/:id",
+  updateAccessToken,
+  isAuthenticated,
+  deleteCourse
+);
 
 export default courseRouter;

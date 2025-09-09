@@ -1,7 +1,7 @@
-import CreateCourse from '@/app/components/Course/CreateCourse'
+import CreateCourse from '../../../app/components/Course/CreateCourse'
 import Sidebar from '../../../app/components/Admin/Sidebar'
 import React from 'react'
-import DashBoard from '@/app/components/Admin/DashBoard'
+import DashBoard from '../../../app/components/Admin/DashBoard'
 
 const page = () => {
   return (

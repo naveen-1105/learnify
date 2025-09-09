@@ -1,7 +1,9 @@
+'use client'
 import React from 'react'
 import AdminProtected from '../../../hooks/useAdminProtected'
 import Sidebar from '../../components/Admin/Sidebar'
 import DashBoard from '../../components/Admin/DashBoard'
+import AllCourses from '../../components/Admin/AllCourses'
 
 const page = () => {
   return (
@@ -13,6 +15,8 @@ const page = () => {
             </div>
             <div className='w-[85%]'>
               <DashBoard/>
+              <AllCourses/>
+
             </div>
     
           </div>

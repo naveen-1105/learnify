@@ -12,10 +12,10 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
     updatePassword: builder.mutation({
-      query: ({ oldPassword,newPassword }) => ({
+      query: ({ oldPassword, newPassword }) => ({
         url: "update-user-password",
         method: "PUT",
-        body: { oldPassword,newPassword },
+        body: { oldPassword, newPassword },
         credentials: "include",
       }),
     }),
@@ -23,11 +23,32 @@ export const userApi = apiSlice.injectEndpoints({
       query: (name) => ({
         url: "update-user-info",
         method: "PUT",
-        body: {name},
+        body: { name },
         credentials: "include",
       }),
     }),
+    getAllUsers: builder.query({
+      query: () => ({
+        url: "get-all-users",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
+    updateUserRole: builder.mutation({
+      query: ({email}) => ({
+        url:"promote-admin",
+        method: "POST",
+        body: {email},
+        credentials: "include"
+      })
+    })
   }),
 });
 
-export const { useUpdateAvatarMutation, useUpdatePasswordMutation,useUpdateInfoMutation } = userApi;
+export const {
+  useUpdateAvatarMutation,
+  useUpdatePasswordMutation,
+  useUpdateInfoMutation,
+  useGetAllUsersQuery,
+  useUpdateUserRoleMutation
+} = userApi;

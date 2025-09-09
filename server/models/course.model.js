@@ -7,6 +7,7 @@ const reviewSchema =new mongoose.Schema({
         default: 0,
     },
     comment: String,
+    commentReplies : [Object]
 },{timestamps: true})
 
 const linkSchema =new mongoose.Schema({
@@ -14,10 +15,10 @@ const linkSchema =new mongoose.Schema({
     url: String,
 },{timestamps:true})
 
-const  commentSchema = new mongoose.Schema({
+const  QuestionSchema = new mongoose.Schema({
     user: Object,
-    comment: String,
-    commentReplies: [Object],
+    question: String,
+    questionReplies: [Object],
 },{timestamps:true})
 
 const courseDataSchema = new mongoose.Schema({
@@ -29,7 +30,7 @@ const courseDataSchema = new mongoose.Schema({
     videoPlayer: String,
     links: [linkSchema],
     suggestion: String,
-    questions: [commentSchema]
+    questions: [QuestionSchema]
 })
 
 const courseSchema = new mongoose.Schema({
@@ -79,7 +80,7 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     }
-},{typeStamps: true})
+},{timeStamps: true})
 
 const courseModel = mongoose.model("Course",courseSchema)
 export default courseModel

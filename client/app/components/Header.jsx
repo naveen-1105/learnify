@@ -24,7 +24,6 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   const [login,{}] = useLoginMutation();
   const {user} = useSelector((state) => state.auth);
   const {data} = useSession();
-  console.log("jai:", JSON.stringify(data));
   
   const[socialAuth,{isSuccess}] = useSocialAuthMutation();
   const [logout,{}] = useLogoutMutation();

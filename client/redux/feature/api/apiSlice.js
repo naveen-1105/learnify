@@ -31,7 +31,7 @@ export const apiSlice = createApi({
             })
           );
         } catch (error) {
-          console.log(error);
+          console.log("hiii");
         }
       },
     }),

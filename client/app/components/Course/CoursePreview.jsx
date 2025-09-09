@@ -1,5 +1,5 @@
 'use client'
-import CoursePlayer from '@/app/utils/CoursePlayer'
+import CoursePlayer from '../../../app/utils/CoursePlayer'
 import React from 'react'
 
 const CoursePreview = ({ courseData, handleCourseCreate, setActive, active }) => {
