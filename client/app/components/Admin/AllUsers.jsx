@@ -3,6 +3,7 @@ import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import {
+  useDeleteUserMutation,
   useGetAllUsersQuery,
   useUpdateUserRoleMutation,
 } from "../../../redux/feature/user/userApi";
@@ -17,11 +18,20 @@ const AllUsers = ({ isTeam }) => {
     {},
     { refetchOnMountOrArgChange: true }
   );
+
+  const [deleteUser,{isSuccess: deleteSuccess,data: deleteData}] = useDeleteUserMutation({})
+
   const [active, setActive] = useState(0);
   const [
     updateRole,
     { isLoading: isLoadingRole, error: roleError, isSuccess,data:roleData },
   ] = useUpdateUserRoleMutation();
+
+  useEffect(() => {
+    if(isLoading){
+      <Loader/>
+    }
+  })
   useEffect(() =>
     {
       if(isSuccess) {
@@ -29,8 +39,11 @@ const AllUsers = ({ isTeam }) => {
         toast.success("Role updated successfully!");
         setActive(0);
       }
+      if(deleteSuccess){
+        toast.success("User deleted Successfully")
+      }
     },
-    [roleData]
+    [roleData,deleteData]
   );
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -42,20 +55,22 @@ const AllUsers = ({ isTeam }) => {
       field: "delete",
       headerName: "Delete",
       flex: 0.2,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <>
-            <Button
+            {/* <Button
               onClick={() => {
                 setOpen(!open);
                 setCourseId(params.row.id);
               }}
-            >
+            > */}
               <AiOutlineDelete
                 className="dark:text-black text-black"
                 size={20}
+                onClick={() => {
+                  console.log(params);
+                  deleteUser(params.row.id)}}
               />
-            </Button>
           </>
         );
       },
@@ -133,7 +148,16 @@ const AllUsers = ({ isTeam }) => {
               m="40px 0 0 0"
               height="80vh"
               sx={{
-                "& .MuiDataGrid-sortIcon": {},
+                // "& .MuiDataGrid-root": {
+                //   border: "none",
+                //   outline: "none",
+                // },
+                // "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon": {
+                //   color: theme === "dark" ? "#fff" : "#000",
+                // },
+                "& .MuiDataGrid-sortIcon": {
+                  // color: "#fff",
+                },
                 "& .MuiDataGrid-row": {
                   color: theme === "dark" ? "#fff" : "#000",
                   borderBottom:
@@ -141,11 +165,7 @@ const AllUsers = ({ isTeam }) => {
                       ? "1px solid #ffffff30!important"
                       : "1px solid #ccc!important",
                 },
-                "& .MuiDataGrid-row:hover": {
-                  // backgroundColor: theme === "dark" ? "#2e3b55" : "#f5f5f5", // hover background
-                  color: theme === "dark" ? "#000" : "#fff", // hover text color
-                  cursor: "pointer", // pointer cursor
-                },
+                "& .MuiDataGrid-row:hover": "none" ,
                 "& .MuiTablePagination-root": {
                   color: theme === "dark" ? "#fff" : "#000",
                 },

@@ -5,5 +5,5 @@ import { useSelector } from 'react-redux'
 
 export default function AdminProtected({children}){
     const role = useSelector((state) => state.auth.user.role);
-  return role === 'admin' ? children : redirect('/')
+  return role === 'admin' || 'teacher' ? children : redirect('/')
 }

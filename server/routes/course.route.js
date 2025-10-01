@@ -10,6 +10,7 @@ import {
   generateVideoUrl,
   getAllCourse,
   getCourseContent,
+  getCourseDetails,
   uploadCourse,
 } from "../controllers/course.controller.js";
 import { authorizeRoles, isAuthenticated } from "../middleware/auth.js";
@@ -20,7 +21,7 @@ courseRouter.post(
   "/create-course",
   updateAccessToken,
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("admin","teacher"),
   uploadCourse
 );
 
@@ -28,7 +29,7 @@ courseRouter.put(
   "/edit-course/:id",
   updateAccessToken,
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("admin" , "teacher"),
   editCourse
 );
 
@@ -47,7 +48,13 @@ courseRouter.put(
   isAuthenticated,
   addQuestion
 );
-courseRouter.put("/add-answer", updateAccessToken, isAuthenticated, addAnswer);
+courseRouter.put("/add-answer", 
+  updateAccessToken, 
+  isAuthenticated, 
+  addAnswer
+);
+
+
 courseRouter.put(
   "/add-review/:id",
   updateAccessToken,
@@ -64,7 +71,14 @@ courseRouter.delete(
   "/delete-course/:id",
   updateAccessToken,
   isAuthenticated,
+  authorizeRoles('admin' , "teacher"),
   deleteCourse
+);
+courseRouter.get(
+  "/get-course-details/:id",
+  updateAccessToken,
+  isAuthenticated,
+  getCourseDetails
 );
 
 export default courseRouter;

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Header from '../components/Header'
 import Sidebar from '../components/Admin/Sidebar'
 import DashBoard from '../components/Admin/DashBoard'
+import DashBoardHero from '../components/Admin/DashBoardHero'
 
 const Page = () => {
  
@@ -16,8 +17,9 @@ const Page = () => {
         </div>
         <div className='w-[85%]'>
           <DashBoard/>
+          <DashBoardHero/>
         </div>
-
+        
       </div>
     </AdminProtected>
   )

@@ -31,7 +31,7 @@ const createActivationToken = (user) => {
 };
 const registrationUser = CatchAsyncError(async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password,role } = req.body;
 
     const isEmailExist = await userModel.findOne({ email });
     if (isEmailExist) {
@@ -42,6 +42,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
       name,
       email,
       password,
+      role
     };
 
     const activationToken = createActivationToken(user);
@@ -92,7 +93,8 @@ const activateUser = CatchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Invalid activation code", 400));
     }
 
-    const { name, email, password } = newUser.user;
+    const { name, email, password,role } = newUser.user;
+
 
     const existedUser = await userModel.findOne({ email });
 
@@ -104,6 +106,7 @@ const activateUser = CatchAsyncError(async (req, res, next) => {
       name,
       email,
       password,
+      role
     });
     res.status(201).json({
       success: true,

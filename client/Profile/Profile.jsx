@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { TbLockCog } from "react-icons/tb";
-import { SiCoursera } from "react-icons/si";
+import { SiCoursera, SiThreedotjs } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
 import { FiCamera } from "react-icons/fi";
 import { useLogoutMutation } from "../redux/feature/auth/authApi";
@@ -16,8 +16,11 @@ import {
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BiMenu, BiMenuAltLeft } from "react-icons/bi";
 
 const Profile = () => {
+  const [sidebarCollapsed, setSideBarCollapse] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const [logout] = useLogoutMutation();
 
@@ -101,9 +104,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex">
-      <div className="w-[20%] h-[80%] ml-[30px] mt-[10px] rounded-[10px] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 flex flex-col justify-end items-center">
-        <div className="w-full pl-[20px] pb-[10px] flex gap-[10px] justify-start items-center">
+    <div className="w-screen h-screen flex sm:flex-row flex-col relative">
+      <div className="w-full sm:hidden flex">
+        <BsThreeDotsVertical className="m-[10px]" onClick={() => setSideBarCollapse(!sidebarCollapsed)}/>
+      </div>
+      {
+        sidebarCollapsed && 
+        <div className={`sm:w-[20%] sm:h-[80%] w-[70%] h-auto  sm:ml-[30px] ml-[10px] mt-[10px] rounded-[10px] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 ${sidebarCollapsed ? 'sm:flex' : 'hidden'}  flex-col justify-center items-center sm:relative absolute z-9999999999 top-[30px]`}>
+        <div className="w-full p-[10px] flex gap-[10px] items-center">
           {avatarPreview ? (
             <Image
               src={avatarPreview}
@@ -121,7 +129,7 @@ const Profile = () => {
           <p className="text-black dark:text-white text-[20px]">My account</p>
         </div>
 
-        <div className="w-[95%] h-[90%] mb-[8px] p-[10px] rounded-[6px] bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950">
+        <div className="w-[95%] h-[90%] m-[6px] p-[10px] rounded-[6px] bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950">
           <p
             className="flex items-end gap-[10px] my-[20px] cursor-pointer"
             onClick={() => {
@@ -134,7 +142,7 @@ const Profile = () => {
           <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer">
             <SiCoursera size={26} /> <span>Enrolled courses</span>
           </p>
-          {user.role === "admin" && (
+          {user.role === "admin" || "teacher" && (
             <Link
               href={"/admin"}
               className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
@@ -150,6 +158,7 @@ const Profile = () => {
           </p>
         </div>
       </div>
+      }
       <div className="w-full h-[80%] mt-[110px] flex flex-col items-center gap-8">
         {isUpdatePassword ? (
           <>

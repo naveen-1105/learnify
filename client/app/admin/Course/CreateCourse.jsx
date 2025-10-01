@@ -7,7 +7,7 @@ import CreateCourseSteps from "./CreateCourseSteps";
 import CourseData from "./CourseData";
 import CourseContent from "./CourseContent";
 import CoursePreview from "./CoursePreview";
-import { useCreateCourseMutation } from "../../../redux/feature/course/CoursesApi";
+import { useCreateCourseMutation, useEditCourseMutation } from "../../../redux/feature/course/CoursesApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
@@ -15,10 +15,12 @@ const CreateCourse = () => {
   const [createCourse, { isLoading, isSuccess, error }] =
     useCreateCourseMutation();
 
+  
+
   useEffect(() => {
     if (isSuccess) {
       toast.success("Course created successfully");
-      redirect("/admin/all-courses");
+      redirect("/admin/courses");
     }
     if (error) {
       if ("data" in error) {
@@ -39,10 +41,11 @@ const CreateCourse = () => {
     demoUrl: "",
     thumbnail: "",
   });
-  const [courseData, setCourseData] = useState({});
+  const [courseData, setCourseData] = useState();
 
   const [benefit, setBenefit] = useState([{ title: "" }]);
   const [prerequisites, setPrerequisites] = useState([{ title: "" }]);
+
   const [courseContentData, setCourseContentData] = useState([
     {
       videoUrl: "",
@@ -59,50 +62,60 @@ const CreateCourse = () => {
     },
   ]);
   const handleSubmit = async () => {
-    const formatedBenefits = benefit.map((benefit) => ({
-      title: benefit.title,
-    }));
-    const formatedPrerequisites = prerequisites.map((prerequisite) => ({
-      title: prerequisite.title,
-    }));
+  const formatedBenefits = benefit.map((benefit) => ({
+    title: benefit.title,
+  }));
+  const formatedPrerequisites = prerequisites.map((prerequisite) => ({
+    title: prerequisite.title,
+  }));
 
-    const formatedCourseContentData = courseContentData.map(
-      (courseContent) => ({
-        videoUrl: courseContent.videoUrl,
-        title: courseContent.title,
-        description: courseContent.description,
-        videoSection: courseContent.videoSection,
-        links: courseContent.links.map((link) => ({
-          title: link.title,
-          url: link.url,
-        })),
-        suggestion: courseContent.suggestion,
-      })
-    );
+  const formatedCourseContentData = courseContentData.map((courseContent) => ({
+    videoUrl: courseContent.videoUrl,
+    title: courseContent.title,
+    description: courseContent.description,
+    videoSection: courseContent.videoSection,
+    links: courseContent.links.map((link) => ({
+      title: link.title,
+      url: link.url,
+    })),
+    suggestion: courseContent.suggestion,
+  }));
 
-    const data = {
-      name: courseInfo.name,
-      description: courseInfo.description,
-      price: courseInfo.price,
-      estimatedPrice: courseInfo.estimatedPrice,
-      tags: courseInfo.tags,
-      thumbnail: courseInfo.thumbnail,
-      level: courseInfo.level,
-      demoUrl: courseInfo.demoUrl,
-      benefits: formatedBenefits,
-      prerequisites: formatedPrerequisites,
-      courseContent: formatedCourseContentData,
-    };
-
-    setCourseData(data);
+  const data = {
+    name: courseInfo.name,
+    description: courseInfo.description,
+    price: courseInfo.price,
+    estimatedPrice: courseInfo.estimatedPrice,
+    tags: courseInfo.tags,
+    thumbnail: courseInfo.thumbnail,
+    level: courseInfo.level,
+    demoUrl: courseInfo.demoUrl,
+    benefits: formatedBenefits,
+    prerequisites: formatedPrerequisites,
+    courseData: formatedCourseContentData,
   };
 
-  const handleCourseCreate = async() => {
-    const data = courseData;
-    if (!isLoading) { 
-      await createCourse(data);
-    }
-  };
+  
+
+  // ✅ Save data in state if needed for CoursePreview
+  setCourseData(data);
+
+  // ✅ Directly create course here if you want immediate DB save
+  // await createCourse(data);
+};
+
+const handleCourseCreate = async () => {
+  // ✅ Use the latest courseData safely
+  if (!isLoading && courseData) {
+    
+    await createCourse(courseData);
+  }
+};
+
+
+
+
+
 
   return (
     <div className="w-full flex min-h-screen">
@@ -140,6 +153,7 @@ const CreateCourse = () => {
             handleCourseCreate={handleCourseCreate}
             setActive={setActive}
             active={active}
+            
           />
         )}
       </div>

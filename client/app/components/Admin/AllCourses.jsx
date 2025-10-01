@@ -7,12 +7,21 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useTheme } from "next-themes";
 import { FiEdit2 } from "react-icons/fi";
 import Link from "next/link";
-import {useGetAllCoursesQuery} from "../../../redux/feature/course/CoursesApi"
+import {useDeleteCourseMutation, useGetAllCoursesQuery} from "../../../redux/feature/course/CoursesApi"
 import Loader from "../Loader";
+import toast from "react-hot-toast";
 
 const AllCourses = () => {
   const { theme, setTheme } = useTheme();
-  const {isLoading, data, error} = useGetAllCoursesQuery({})
+  const {isLoading, data,isSuccess, error, refetch} = useGetAllCoursesQuery({},{refetchOnMountOrArgChange: true});
+  const [deleteCourse, { isLoading: deleteLoading,isSuccess: deleteSuccess }] = useDeleteCourseMutation();
+
+  useEffect(() => {
+    if(deleteSuccess && !isLoading && !deleteLoading){
+        refetch();
+        toast.success("Course deleted succcessfully")
+    }
+  },[deleteSuccess, isLoading, deleteLoading, refetch])
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -26,10 +35,13 @@ const AllCourses = () => {
       flex: 0.2,
       renderCell: (params) => {
         return (
-          <>
+          <> 
+          <div className="w-full h-full flex justify-center items-center">
             <Link href={`/admin/edit-course/${params.row.id}`}>
               <FiEdit2 className="dark:text-white text-black" size={20} />
             </Link>
+          </div>
+            
           </>
         );
       },
@@ -38,13 +50,13 @@ const AllCourses = () => {
       field: "delete",
       headerName: "Delete",
       flex: 0.2,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <>
             <Button
-              onClick={() => {
-                setOpen(!open);
-                setCourseId(params.row.id);
+              onClick={async() => {
+                console.log(params);
+                await deleteCourse(params.row.id);
               }}
             >
               <AiOutlineDelete

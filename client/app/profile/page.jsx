@@ -7,10 +7,6 @@ import Profile from "../../Profile/Profile";
 import { useSelector } from "react-redux";
 
 const page = () => {
-
-    const [open, setOpen] = useState(false);
-  const [route, setRoute] = useState("Login");
-  const [activeItem, setActiveItem] = useState(0);
   const {user} = useSelector((state) => state.auth)
 
 
@@ -20,12 +16,7 @@ const page = () => {
           title = {`${user?.name} Profile`}
           description="Learnify is a comprehensive learning platform."
         />
-        <Header
-        open={open}
-        setOpen={setOpen}
-        activeItem={activeItem}
-        setRoute={setRoute}
-        route={route}/>
+        <Header/>
       <Protected>
         <Profile/>
       </Protected>

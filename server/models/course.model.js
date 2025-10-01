@@ -1,5 +1,11 @@
 import mongoose from "mongoose"
 
+
+const commentReplies = new mongoose.Schema({
+    user: Object,
+    comment: String,
+},{timestamps:true})
+
 const reviewSchema =new mongoose.Schema({
     user: Object,
     rating:{
@@ -7,8 +13,15 @@ const reviewSchema =new mongoose.Schema({
         default: 0,
     },
     comment: String,
-    commentReplies : [Object]
+    commentReplies : [commentReplies]
 },{timestamps: true})
+
+const questionReplies = new mongoose.Schema({
+    user: Object,
+    answer: String,
+},{timestamps:true})
+
+
 
 const linkSchema =new mongoose.Schema({
     title: String,
@@ -18,7 +31,7 @@ const linkSchema =new mongoose.Schema({
 const  QuestionSchema = new mongoose.Schema({
     user: Object,
     question: String,
-    questionReplies: [Object],
+    questionReplies: [questionReplies],
 },{timestamps:true})
 
 const courseDataSchema = new mongoose.Schema({
@@ -69,7 +82,7 @@ const courseSchema = new mongoose.Schema({
         required: true,
     },
     benefits:[{title: String}],
-    prerequisite:[{title: String}],
+    prerequisites:[{title: String}],
     reviews: [reviewSchema],
     courseData:[courseDataSchema],
     ratings:{

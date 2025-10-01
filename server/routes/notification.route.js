@@ -8,7 +8,7 @@ notificationRouter.get(
   "/get-all-notifications",
   updateAccessToken,
   isAuthenticated,
-  authorizeRoles("admin"),
+  authorizeRoles("admin", "teacher"),
   getAllNotifications
 );
 

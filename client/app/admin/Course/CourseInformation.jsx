@@ -90,6 +90,7 @@ const CourseInformation = ({
             className=" border overflow-hidden w-[100%] block mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
           />
         </div>
+        
         <br />
         <div className="flex justify-between">
           <div className="w-[45%]">

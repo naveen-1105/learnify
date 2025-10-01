@@ -18,7 +18,7 @@ const CourseContent = ({
   handleSubmit,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(
-    Array(courseContentData.length).fill(false)
+  Array((courseContentData?.length || 0)).fill(false)
   );
 
   const [activeSection, setActiveSection] = useState(1);
@@ -41,7 +41,7 @@ const CourseContent = ({
     });
     setCourseContentData(updatedData);
   };
-  const handleNewSection = (item) => {
+  const handleNewContent = (item) => {
     if(item.title === "" || item.description === "" || item.links[0].title === "" || item.links[0].url === ""){
       toast.error("please fill all the fields first")
     }
@@ -211,6 +211,19 @@ const CourseContent = ({
                       />
                     </div>
                     <div className="my-3">
+                      <label>Video Length</label>
+                      <input 
+                      type="number"
+                      placeholder="Enter the length of the video in minutes"
+                      value={item.videoLength}
+                      className="block p-[2px] border w-full border-white"
+                      onChange={(e) => {
+                        const updatedData = [...courseContentData];
+                        updatedData[index].videoLength = e.target.value;
+                        setCourseContentData(updatedData);
+                      }}/>
+                    </div>
+                    <div className="my-3">
                       <label> Description</label>
                       <textarea
                         rows={8}
@@ -288,7 +301,7 @@ const CourseContent = ({
                 <div className="w-[200px] mt-[10px] mx-auto">
                   <p
                     className="w-auto px-[16px] py-[6px] rounded-2xl text-white bg-blue-500 cursor-pointer"
-                    onClick={(e) => handleNewSection(item)}
+                    onClick={(e) => handleNewContent(item)}
                   >
                     <p className="align-text-bottom">
                       <AddCircle className="pr-[5px]" />

@@ -4,34 +4,48 @@ import React, { useEffect, useState } from "react";
 import NavItem from "../utils/NavItem";
 import ThemeSwitcher from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
-import CustomModal from "../utils/CustomModal"
+import CustomModal from "../utils/CustomModal";
 import Login from "../components/Auth/Login";
 import SignUp from "../components/Auth/SignUp";
 import Verification from "../components/Auth/Verification";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import Image from "next/image";
-import img from "../assets/img.png"
+import img from "../assets/img.png";
 import { useSession } from "next-auth/react";
-import { useLoginMutation, useLogoutMutation, useSocialAuthMutation } from "../../redux/feature/auth/authApi";
+import {
+  useLoginMutation,
+  useSocialAuthMutation,
+} from "../../redux/feature/auth/authApi";
 import toast from "react-hot-toast";
-import Loader from "./Loader";
-import { useLoadUserQuery } from "../../redux/feature/api/apiSlice";
 
-const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
+import { useLoadUserQuery } from "../../redux/feature/api/apiSlice";
+import { redirect,useRouter } from "next/navigation";
+import { setOpen, setActiveItem, setRoute } from "../../redux/feature/ui/uiSlice.js";
+import Loader from "./Loader";
+
+const Header = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleProfileClick = () => {
+    setLoading(true);
+    router.push("/profile"); // navigate programmatically
+  };
+
+  const { open, activeItem, route } = useSelector((state) => state.ui);
+  const dispatch = useDispatch();
+
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
-  const {userData,isLoading,refetch} = useLoadUserQuery();
-  const [login,{}] = useLoginMutation();
-  const {user} = useSelector((state) => state.auth);
-  const {data} = useSession();
-  
-  const[socialAuth,{isSuccess}] = useSocialAuthMutation();
-  const [logout,{}] = useLogoutMutation();
+  const { userData, isLoading, refetch } = useLoadUserQuery();
+  const [login, {}] = useLoginMutation();
+  const { user } = useSelector((state) => state.auth);
+  const { data } = useSession();
 
+  const [socialAuth, { isSuccess }] = useSocialAuthMutation();
 
-
- useEffect(() => {
-    if(!isLoading){
+  useEffect(() => {
+    if (!isLoading) {
       if (!userData) {
         if (data) {
           socialAuth({
@@ -42,31 +56,22 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
           refetch();
         }
       }
-      if(userData){async() => {
-        await login({
-          email: userData?.user?.email,
+      if (userData) {
+        async () => {
+          await login({
+            email: userData?.user?.email,
             name: userData?.user?.name,
             avatar: userData?.user?.image,
-        });
-      } 
+          });
+        };
       }
-      if(data === null){
-        if(isSuccess){
+      if (data === null) {
+        if (isSuccess) {
           toast.success("Login Successfully");
         }
       }
-      
     }
-  }, [data, userData,isLoading]);
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setActive(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [data, userData, isLoading]);
 
   const handleClose = (e) => {
     if (e.target.id === "screen") {
@@ -75,11 +80,20 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
   };
 
   return (
-    <div className="w-full">
-      <div className={`top-0 left-0 w-full h-[80px] z-[80] transition duration-500 ${
-  active
-    ? "dark:bg-gradient-to-b/50 dark:from-gray-900 dark:to-black shadow-xl dark:border-[#ffffff1c]"
-    : "border-b dark:border-[#ffffff1c] dark:shadow bg-white dark:bg-[#111827]"
+    
+    <div className="w-full z-999999999">
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-[999999]">
+          <Loader />
+        </div>
+      )}
+      {
+        !loading && (
+          <div
+        className={`top-0 left-0 w-full h-[80px] z-[80] transition duration-500 ${
+          active
+            ? "bg-gradient-to-b from-gray-900 to-black shadow-xl dark:border-[#ffffff1c]"
+            : "border-b dark:border-[#ffffff1c] dark:shadow bg-white dark:bg-[#111827]"
         }`}
       >
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
@@ -90,13 +104,18 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
                 className={
                   "text-[25px] font-Poppins font-[500] text-black dark:text-white"
                 }
+                onClick={() => dispatch(setActive(0))}
               >
                 Learnify
+                
               </Link>
             </div>
             <div className="flex items-center">
-              <NavItem activeItem={activeItem} isMobile={false} />
-              <ThemeSwitcher />
+              <NavItem
+                activeItem={activeItem}
+                setActiveItem={(item) => dispatch(setActiveItem(item))}
+                isMobile={false}
+              />
               <div className="md:hidden">
                 <HiOutlineMenuAlt3
                   size={25}
@@ -104,37 +123,58 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
-              { user ? 
-              <Link href={"/profile"}>
-                <Image 
-                src={user.avatar ? user.avatar.url : img}
-                alt="profile picture"
-                width={30}
-                height={30}
-                className="w-[30px] h-[30px] object-cover rounded-full"
+              {user ? (
+                <div>
+                  <Image
+                    src={user.avatar ? user.avatar.url : img}
+                    alt="profile picture"
+                    width={30}
+                    height={30}
+                    className="w-[30px] h-[30px] object-cover rounded-full"
+                    onClick={handleProfileClick}
+                  />
+                </div>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  className=" md:block cursor-pointer dark:text-white text text-black "
+                  onClick={() => dispatch(setOpen(true))}
                 />
-              </Link> : <HiOutlineUserCircle
-                size={25}
-                className="hidden md:block cursor-pointer dark:text-white text text-black "
-                onClick={() => setOpen(true)}
-              />}
-              
+              )}
             </div>
           </div>
         </div>
         {openSidebar && (
           <div
-            className="fixed w-full h-screen top-0 left-0 z-[99999] dark:bg-[unset] bg-[#00000024]"
+            className="fixed w-full h-screen top-0 left-0  dark:bg-[unset] bg-[#00000024] z-999999999"
             onClick={handleClose}
             id="screen"
           >
-            <div className="w-[70%] fixed z-[999999999] h-screen bg-white dark:bg-slate-900/90 top-0 right-0">
-              <NavItem activeItem={activeItem} isMobile={true} />
-              <HiOutlineUserCircle
-                size={25}
-                className="cursor-pointer ml-5 my-2 text-black dark:text-white"
-                onClick={() => setOpen(true)}
+            <div className="w-[70%] fixed  h-screen bg-white dark:bg-slate-900/90 top-0 right-0">
+              <NavItem
+                activeItem={activeItem}
+                setActiveItem={(item) => dispatch(setActiveItem(item))}
+                isMobile={true}
               />
+              {user ? (
+                <div onClick={handleProfileClick} className="cursor-pointer">
+                  <Image
+                    src={user.avatar ? user.avatar.url : img}
+                    alt="profile picture"
+                    width={30}
+                    height={30}
+                    className="w-[30px] h-[30px] object-cover rounded-full absolute left-[20px] inline"
+                    
+                  />
+                  <p className="text-[20px] pl-[60px]">Profile</p>
+                </div>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  className="left-[20px] md:block cursor-pointer dark:text-white text text-black "
+                  onClick={() => dispatch(setOpen(true))}
+                />
+              )}
               <br />
               <br />
               <p className="ml-5 my-2 text-black dark:text-white">
@@ -144,60 +184,49 @@ const Header = ({ open, setOpen, activeItem,setRoute,route}) => {
           </div>
         )}
       </div>
-        {
-          route === 'Login' && (
-            <>
-            {
-              open && (
-                <CustomModal
-                  open={open}
-                  setOpen={setOpen}
-                  activeItem={activeItem}
-                  setRoute={setRoute}
-                  component={Login}
+        )
+      }
+      {route === "Login" && (
+        <>
+          {open && (
+            <CustomModal
+              open={open}
+              setOpen={(val) => dispatch(setOpen(val))}
+              activeItem={activeItem}
+              setRoute={(r) => dispatch(setRoute(r))}
+              component={Login}
+              
+            />
+          )}
+        </>
+      )}
+      {route === "SignUp" && (
+        <>
+          {open && (
+            <CustomModal
+              open={open}
+              setOpen={(val) => dispatch(setOpen(val))}
+              activeItem={activeItem}
+              setRoute={(r) => dispatch(setRoute(r))}
+              component={SignUp}
+            />
+          )}
+        </>
+      )}
 
-                />
-              )
-            }
-            </>
-          )
-        }
-          {
-            route === 'SignUp' && (
-            <>
-            {
-              open && (
-                <CustomModal
-                  open={open}
-                  setOpen={setOpen}
-                  activeItem={activeItem}
-                  setRoute={setRoute}
-                  component={SignUp}
-                />
-              )
-            }
-            </>
-          )
-          }
-
-          {
-            route === 'Verification' && (
-            <>
-            {
-              open && (
-                <CustomModal
-                  open={open}
-                  setOpen={setOpen}
-                  activeItem={activeItem}
-                  setRoute={setRoute}
-                  component={Verification} 
-                />
-              )
-            }
-            </>
-          )
-          } 
-
+      {route === "Verification" && (
+        <>
+          {open && (
+            <CustomModal
+              open={open}
+              setOpen={(val) => dispatch(setOpen(val))}
+              activeItem={activeItem}
+              setRoute={(r) => dispatch(setRoute(r))}
+              component={Verification}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };

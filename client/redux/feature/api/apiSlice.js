@@ -31,7 +31,6 @@ export const apiSlice = createApi({
             })
           );
         } catch (error) {
-          console.log("hiii");
         }
       },
     }),
@@ -57,5 +56,7 @@ export const apiSlice = createApi({
     }),
   }),
 });
+
+
 
 export const { useRefreshTokenQuery, useLoadUserQuery } = apiSlice;

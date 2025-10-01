@@ -6,24 +6,26 @@ const CourseData = ({ benefit, setBenefit, prerequisites, setPrerequisites,activ
   const handleAddBenefit = () => {
     setBenefit([...benefit, { title: "" }]);
   };
+  const handleAddPrerequisite = () => {
+    setPrerequisites([...prerequisites, { title: "" }]);
+  };
   const handleBenefitChange = (index,value) => {
     const updatedBenefit = [...benefit];
     updatedBenefit[index].title = value;
     setBenefit(updatedBenefit);
   };
-  const handleBenefitDelete = (item) => {
-  setBenefit(benefit.filter((b) => b !== item));
-};
 
-
-  const handleAddPrerequisite = () => {
-    setPrerequisites([...prerequisites, { title: "" }]);
-  };
   const handlePrerequisiteChange = (index,value) => {
     const updatedPrerequisite = [...prerequisites];
     updatedPrerequisite[index].title = value;
     setPrerequisites(updatedPrerequisite);
   };
+  
+  const handleBenefitDelete = (item) => {
+  setBenefit(benefit.filter((b) => b !== item));
+};
+
+  
   const handlePrerequisiteDelete = (index) => {
     setPrerequisites(prerequisites.filter((_, i) => i !== index));
   };
@@ -69,7 +71,7 @@ const CourseData = ({ benefit, setBenefit, prerequisites, setPrerequisites,activ
         course?
       </label>
       <br />
-      {prerequisites.map((prerequisites, index) => (
+      {prerequisites.map((prerequisite, index) => (
         <div className="w-full flex  items-center gap-[10px]">
             <input
           type="text"
@@ -78,7 +80,7 @@ const CourseData = ({ benefit, setBenefit, prerequisites, setPrerequisites,activ
           placeholder="You need to have basic knowledge of ..."
           required
           className=" border p-[2px] w-[100%] my-2"
-          value={prerequisites.title}
+          value={prerequisite.title}
           onChange={(e) => handlePrerequisiteChange(index, e.target.value)}
         />
         <MdDelete

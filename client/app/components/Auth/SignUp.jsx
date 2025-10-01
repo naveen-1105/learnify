@@ -7,8 +7,10 @@ import * as Yup from "yup";
 import { useRegisterMutation } from "../../../redux/feature/auth/authApi";
 import toast from "react-hot-toast";
 import Loader from "../Loader";
+import RoleToggle from "../../utils/Toggle"
 
 const SignUp = ({ setRoute, setOpen }) => {
+  const [role, setRole] = useState("student");
   const [show, setShow] = useState(false);
   const [registration,{data,error,isSuccess,isLoading}] = useRegisterMutation();
 
@@ -49,8 +51,12 @@ const SignUp = ({ setRoute, setOpen }) => {
     validationSchema: schema,
     onSubmit: async({name,email,password}) => {
       const data = {
-        name,email,password
+        name,
+        email,
+        password,
+        role: role // using the role from component state
       };
+      console.log(data);
       await registration(data);
 
     },
@@ -65,14 +71,14 @@ const SignUp = ({ setRoute, setOpen }) => {
 
   return (
     <>
-      <h1 className="text-[32px] flex justify-center pt-[12px]">
+      <h1 className="sm:text-[32px] text-[20px] flex justify-center pt-[12px]">
         Welcome To Learnify
       </h1>
-      <p className="text-center text-[24px] text-blue-500 font-semibold pb-[12px]">
+      <p className="text-center sm:text-[24px] text-[20px] text-blue-500 font-semibold pb-[12px]">
         Sign Up
       </p>
-      <form onSubmit={handleSubmit} className="flex flex-col w-[400px] mx-auto relative">
-        <label className="block mb-1 text-blue-500 font-medium">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:w-[400px] mx-auto relative">
+        <label className="block sm:mb-1 mb-[0px] text-blue-500 sm:font-medium">
           Enter your name
         </label>
         <input
@@ -82,7 +88,7 @@ const SignUp = ({ setRoute, setOpen }) => {
           onChange={handleChange}
           onBlur={handleBlur}
           placeholder="Name"
-          className={` ${errors.name && touched.name ? "border-red-500" : "border-blue-600"} p-2 mb-[32px] rounded w-full border`}
+          className={` ${errors.name && touched.name ? "border-red-500" : "border-blue-600"} sm:p-2 p-1 sm:mb-[32px] mb-[10px] rounded w-full border`}
         />
 
           {errors.name && touched.name && (
@@ -100,7 +106,7 @@ const SignUp = ({ setRoute, setOpen }) => {
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={` ${errors.email && touched.email ? "border-red-500" : "border-blue-600"} p-2 mb-[32px] rounded w-full border`}
+          className={` ${errors.email && touched.email ? "border-red-500" : "border-blue-600"} sm:p-2 p-1 sm:mb-[32px] mb-[10px] rounded w-full border`}
         />
 
         {errors.email && touched.email && (
@@ -119,10 +125,10 @@ const SignUp = ({ setRoute, setOpen }) => {
             value={values.password}
             onChange={handleChange}
             onBlur={handleBlur}
-            className={` ${errors.password && touched.password ? "border-red-500" : "border-blue-600"} p-2 mb-[32px] rounded w-full border`}
+            className={` ${errors.password && touched.password ? "border-red-500" : "border-blue-600"} sm:p-2 p-1 sm:mb-[32px] mb-[10px] rounded w-full border`}
           />
           <span
-            className="absolute right-[12px] top-[12px] cursor-pointer text-blue-600"
+            className="absolute sm:right-[12px] sm:top-[12px] right-[12px] top-[8px] cursor-pointer text-blue-600"
             onClick={() => setShow((prev) => !prev)}
           >
             {show ? <FaEyeSlash /> : <FaEye />}
@@ -132,16 +138,23 @@ const SignUp = ({ setRoute, setOpen }) => {
         {errors.password && touched.password && (
           <p className="text-red-500 text-sm absolute top-[275px]">{errors.password}</p>
         )}
+        <div className="w-full flex justify-center items-center p-[10px]">
+          <p className={`px-[5px] ${role === 'student' ? 'text-blue-500' : 'text-gray-500' }`}>Student</p>
+          <RoleToggle role={role} setRole={setRole}/>
+          <p className={`px-[5px] ${role === 'teacher' ? 'text-green-500' : 'text-gray-500' }`}>Teacher</p>
+        </div>
         <button className=" w-full bg-blue-500 text-white p-2 rounded-4xl border border-blue-600 cursor-pointer"
         onClick={handleSubmit}>
           Sign Up
         </button>
+        
       </form>
       <br />
-      <br />
 
-      <p className="text-center text-[20px]">Or join with</p>
-      <div className="flex justify-center mt-4 gap-[16px] p-[16px]">
+      
+
+      <p className="text-center sm:text-[20px] ">Or join with</p>
+      <div className="flex justify-center sm:mt-4 gap-[16px] sm:p-[16px]">
         <FcGoogle size={30} className="cursor-pointer" />
         <FaGithub size={30} className="cursor-pointer" />
       </div>

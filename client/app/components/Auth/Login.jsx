@@ -53,14 +53,14 @@ const Login = ({ setOpen, setRoute }) => {
 
   return (
     <>
-      <h1 className="text-[32px] flex justify-center py-[12px]">
+      <h1 className="sm:text-[32px] text-[20px] flex justify-center py-[12px]">
         Login To Learnify
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col w-[400px] mx-auto relative"
+        className="flex flex-col sm:w-[400px] mx-auto relative"
       >
-        <label className="block mb-1 text-blue-500 font-medium">
+        <label className="block mb-1 sm:text-[20px] text-[14px] text-blue-500 font-medium">
           Enter your email
         </label>
         <input
@@ -72,7 +72,7 @@ const Login = ({ setOpen, setRoute }) => {
           placeholder="Email"
           className={` ${
             errors.email && touched.email ? "border-red-500" : "border-blue-600"
-          } p-2 mb-[32px] rounded w-full border`}
+          } p-2 mb-[32px] rounded sm:w-full border`}
         />
 
         {errors.email && touched.email && (

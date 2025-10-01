@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Poppins, Josefin_Sans, Inter } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
@@ -7,6 +7,11 @@ import { Toaster } from "react-hot-toast";
 import { SessionProvider } from "next-auth/react";
 import { useLoadUserQuery } from "../redux/feature/api/apiSlice";
 import Loader from "./components/Loader";
+import { useEffect } from "react";
+import socketIO from "socket.io-client";
+
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI;
+const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
 
 // Importing fonts from Google Fonts
 
@@ -42,13 +47,13 @@ export default function RootLayout({ children }) {
   );
 }
 
-const Custom = ({children}) => {
-  const {isLoading} = useLoadUserQuery({});
-  return (
-    <>
-    {
-      isLoading ? <Loader /> : <>{children}</>
-    }
-    </>
-  )
-}
+const Custom = ({ children }) => {
+  const { isLoading } = useLoadUserQuery({});
+  useEffect(() => {
+    socketId.on("connection", () => {
+      console.log("Client connected:", socketId.id);
+    });
+  }, []);
+
+  return <>{isLoading ? <Loader /> : <>{children}</>}</>;
+};
