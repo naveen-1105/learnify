@@ -142,7 +142,7 @@ const Profile = () => {
           <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer">
             <SiCoursera size={26} /> <span>Enrolled courses</span>
           </p>
-          {user.role === "admin" || "teacher" && (
+          {(user.role === "admin" || user.role === "teacher") && (
             <Link
               href={"/admin"}
               className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
