@@ -37,7 +37,13 @@ export default function RootLayout({ children }) {
               defaultTheme="system"
               enableSystem={true}
             >
-              <Toaster position="top-center" reverseOrder={false} />
+              <Toaster 
+                position="top-center" 
+                reverseOrder={false}
+                containerStyle={{
+                  zIndex: 99999999
+                }}
+              />
               <Custom>{children}</Custom>
             </ThemeProvider>
           </SessionProvider>
