@@ -15,8 +15,6 @@ FAQSRouter.post(
 
 FAQSRouter.get(
   "/get-all-faq",
-  updateAccessToken,
-  isAuthenticated,
   getAllFAQ
 );
 
