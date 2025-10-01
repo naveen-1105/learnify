@@ -30,7 +30,11 @@
     "react-sidebar": "^3.0.2",
     "recharts": "^3.2.1",
     "socket.io-client": "^4.8.1",
-    "timeago.js": "^4.0.2"
+    "timeago.js": "^4.0.2",
+    "@reduxjs/toolkit": "^2.8.2",
+    "formik": "^2.4.6",
+    "react-redux": "^9.2.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
