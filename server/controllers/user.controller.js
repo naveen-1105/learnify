@@ -31,7 +31,7 @@ const createActivationToken = (user) => {
 };
 const registrationUser = CatchAsyncError(async (req, res, next) => {
   try {
-    const { name, email, password,role } = req.body;
+    const { name, email, password, role } = req.body;
 
     const isEmailExist = await userModel.findOne({ email });
     if (isEmailExist) {
@@ -42,7 +42,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
       name,
       email,
       password,
-      role
+      role,
     };
 
     const activationToken = createActivationToken(user);
@@ -60,7 +60,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
       res.cookie("activation_token", activationToken.activationToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 60 * 1000, // 5 hours
-        sameSite: "strict",
+        sameSite: "lax",
         secure: process.env.NODE_ENV === "production",
       });
 
@@ -93,8 +93,7 @@ const activateUser = CatchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("Invalid activation code", 400));
     }
 
-    const { name, email, password,role } = newUser.user;
-
+    const { name, email, password, role } = newUser.user;
 
     const existedUser = await userModel.findOne({ email });
 
@@ -106,7 +105,7 @@ const activateUser = CatchAsyncError(async (req, res, next) => {
       name,
       email,
       password,
-      role
+      role,
     });
     res.status(201).json({
       success: true,
@@ -327,44 +326,44 @@ const getAllUser = CatchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 400));
   }
 });
-const updateUserRole = CatchAsyncError(async(req,res,next) => {
+const updateUserRole = CatchAsyncError(async (req, res, next) => {
   try {
-    const {email} = req.body;
-    const user = await userModel.findOne({email});
+    const { email } = req.body;
+    const user = await userModel.findOne({ email });
     if (!user) {
       return next(new ErrorHandler("User not found", 404));
     }
-    user.role === 'admin' ? user.role = 'user' : user.role = 'admin'
-    await user.save()
+    user.role === "admin" ? (user.role = "user") : (user.role = "admin");
+    await user.save();
     res.status(200).json({
-      success:true,
-      message: "user's role has been promoted to admin"
-    })
+      success: true,
+      message: "user's role has been promoted to admin",
+    });
   } catch (error) {
-      return next(new ErrorHandler(error.message, 400));
+    return next(new ErrorHandler(error.message, 400));
   }
-})
+});
 
-const deleteUser = CatchAsyncError(async(req,res,next) => {
+const deleteUser = CatchAsyncError(async (req, res, next) => {
   try {
-      const user = await userModel.findById(req.params.id);
+    const user = await userModel.findById(req.params.id);
 
-      if(!user){
-        return next(new ErrorHandler("User not found",404));
-      }
+    if (!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
 
-      await user.deleteOne();
+    await user.deleteOne();
 
-      await redis.del(req.params.id);
+    await redis.del(req.params.id);
 
-      res.status(200).json({
-        success: true,
-        message: "User deleted successfully"
-      })
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
   } catch (error) {
-      return next(new ErrorHandler(error.message,400));
+    return next(new ErrorHandler(error.message, 400));
   }
-})
+});
 
 export {
   registrationUser,
@@ -379,5 +378,5 @@ export {
   updateProfilePicture,
   getAllUser,
   updateUserRole,
-  deleteUser
+  deleteUser,
 };
