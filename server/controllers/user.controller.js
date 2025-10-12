@@ -91,7 +91,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
 
       res.status(201).json({
         success: true,
-        message: `Registration successful! Your activation code is: ${activationToken.activationCode}. If you don't receive an email, use this code to activate your account.`,
+        message: `Check Your Mail for an OTP`,
         activationToken: activationToken.activationToken,
       });
     } catch (error) {
@@ -105,7 +105,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
 const activateUser = CatchAsyncError(async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader || !authHeader.startsWith("Bearer  ")) {
       return next(new ErrorHandler("No token provided", 401));
     }
 
