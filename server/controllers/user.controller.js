@@ -47,55 +47,64 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
       role,
     };
 
-    console.log('Creating activation token for:', email);
-    const activationToken = createActivationToken(user);
-    const activationCode = activationToken.activationCode;
+    // console.log('Creating activation token for:', email);
+    // const activationToken = createActivationToken(user);
+    // const activationCode = activationToken.activationCode;
 
-    const data = { user: { name: user.name }, activationCode };
+    // const data = { user: { name: user.name }, activationCode };
 
-    try {
-      console.log('Attempting to send mail to:', user.email);
+    // try {
+    //   console.log('Attempting to send mail to:', user.email);
       
-      try {
-        const mailResponse = await sendMail({
-          email: user.email,
-          subject: "Activate your account",
-          template: "activation-mail.ejs",
-          data,
-        });
+    //   try {
+    //     const mailResponse = await sendMail({
+    //       email: user.email,
+    //       subject: "Activate your account",
+    //       template: "activation-mail.ejs",
+    //       data,
+    //     });
         
-        console.log('Mail sent successfully to:', user.email, 'Response:', mailResponse);
-      } catch (mailError) {
-        console.error('Detailed mail sending error:', {
-          error: mailError.message,
-          code: mailError.code,
-          response: mailError.response?.body
-        });
+    //     console.log('Mail sent successfully to:', user.email, 'Response:', mailResponse);
+    //   } catch (mailError) {
+    //     console.error('Detailed mail sending error:', {
+    //       error: mailError.message,
+    //       code: mailError.code,
+    //       response: mailError.response?.body
+    //     });
         
-        // Check if it's a Resend API specific error
-        if (mailError.response?.body) {
-          const errorMessage = `Mail sending failed: ${mailError.response.body.message || mailError.message}`;
-          return next(new ErrorHandler(errorMessage, 400));
-        }
+    //     // Check if it's a Resend API specific error
+    //     if (mailError.response?.body) {
+    //       const errorMessage = `Mail sending failed: ${mailError.response.body.message || mailError.message}`;
+    //       return next(new ErrorHandler(errorMessage, 400));
+    //     }
         
-        return next(new ErrorHandler("Failed to send activation email. Please try again.", 400));
-      }
+    //     return next(new ErrorHandler("Failed to send activation email. Please try again.", 400));
+    //   }
 
-      res.cookie("activation_token", activationToken.activationToken, {
-        httpOnly: true,
-        maxAge: 5 * 60 * 60 * 1000, // 5 hours
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production",
-      });
+    //   res.cookie("activation_token", activationToken.activationToken, {
+    //     httpOnly: true,
+    //     maxAge: 5 * 60 * 60 * 1000, // 5 hours
+    //     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    //     secure: process.env.NODE_ENV === "production",
+    //   });
 
-      res.status(201).json({
-        success: true,
-        message: `Check Your Mail for an OTP`,
-        activationToken: activationToken.activationToken,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 400));
-    }
+    //   res.status(201).json({
+    //     success: true,
+    //     message: `Check Your Mail for an OTP`,
+    //     activationToken: activationToken.activationToken,
+    //   });
+    // // } catch (error) {
+    //   return next(new ErrorHandler(error.message, 400));
+    // }
+    await userModel.create({
+      name,
+      email,
+      password,
+      role,
+    });
+    res.status(201).json({
+      success: true,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
   }

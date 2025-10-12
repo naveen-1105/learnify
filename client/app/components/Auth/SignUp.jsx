@@ -18,9 +18,9 @@ const SignUp = ({ setRoute, setOpen }) => {
 
   useEffect(() => {
     if(isSuccess){
-      const message = data?.message || "Registeration Successful";
+      const message ="Registeration Successful";
       toast.success(message)
-      setRoute("Verification");
+      setRoute("Login");
     }
     if(error){
       if("data" in error){
