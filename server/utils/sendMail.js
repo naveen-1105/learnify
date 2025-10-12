@@ -19,7 +19,7 @@ const sendMail = async (options) => {
 
     console.log("Sending mail via Resend API...");
     const response = await resend.emails.send({
-      from: process.env.FROM_EMAIL,
+      from: "Learnify <onboarding@resend.dev>",
       to: email,
       subject,
       html,
