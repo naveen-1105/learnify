@@ -8,7 +8,7 @@ const CoursePlayer = ({ videoUrl }) => {
   useEffect(() => {
     if(videoUrl) {
       axios
-        .post(`http://localhost:3001/api/v1/getVdoCipherOTP`, {
+        .post(`https://learnify-zao8.onrender.com/api/v1/getVdoCipherOTP`, {
           videoId: videoUrl,
         })
         .then((res) => {
