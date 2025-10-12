@@ -56,30 +56,29 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
     try {
       console.log('Attempting to send mail to:', user.email);
       
-      // Set a timeout for the entire mail sending process
-      const mailTimeout = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error('Mail sending timed out after 15 seconds'));
-        }, 15000);
-      });
-
       try {
-        // Race between mail sending and timeout
-        await Promise.race([
-          sendMail({
-            email: user.email,
-            subject: "Activate your account",
-            template: "activation-mail.ejs",
-            data,
-          }),
-          mailTimeout
-        ]);
+        const mailResponse = await sendMail({
+          email: user.email,
+          subject: "Activate your account",
+          template: "activation-mail.ejs",
+          data,
+        });
         
-        console.log('Mail sent successfully to:', user.email);
+        console.log('Mail sent successfully to:', user.email, 'Response:', mailResponse);
       } catch (mailError) {
-        console.error('Mail sending error:', mailError);
-        // Continue with registration even if mail fails
-        console.log('Proceeding with registration despite mail failure');
+        console.error('Detailed mail sending error:', {
+          error: mailError.message,
+          code: mailError.code,
+          response: mailError.response?.body
+        });
+        
+        // Check if it's a Resend API specific error
+        if (mailError.response?.body) {
+          const errorMessage = `Mail sending failed: ${mailError.response.body.message || mailError.message}`;
+          return next(new ErrorHandler(errorMessage, 400));
+        }
+        
+        return next(new ErrorHandler("Failed to send activation email. Please try again.", 400));
       }
 
       res.cookie("activation_token", activationToken.activationToken, {
@@ -105,7 +104,8 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
 const activateUser = CatchAsyncError(async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer  ")) {
+    console.log(authHeader);
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return next(new ErrorHandler("No token provided", 401));
     }
 
