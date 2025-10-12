@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import ejs from 'ejs';
 import path from "path";
 import dotenv from "dotenv"
@@ -7,56 +7,28 @@ dotenv.config()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const resend = new Resend(process.env.RESEND_KEY);
+
 const sendMail = async (options) => {
   try {
-    console.log('Creating mail transporter with service:', process.env.SMTP_SERVICE);
-    const transporter = nodemailer.createTransport({
-      service: process.env.SMTP_SERVICE,
-      auth: {
-        user: process.env.SMTP_MAIL,
-        pass: process.env.SMTP_PASSWORD,
-      },
-      // Add timeout settings
-      tls: {
-        rejectUnauthorized: false
-      },
-      connectionTimeout: 10000, // 10 seconds
-      timeout: 10000
-    });
-
     const { email, subject, template, data } = options;
 
-    console.log('Verifying SMTP connection...');
-    await new Promise((resolve, reject) => {
-      transporter.verify(function (error, success) {
-        if (error) {
-          console.log('SMTP Verification Error:', error);
-          reject(error);
-        } else {
-          console.log('SMTP Server is ready to take our messages');
-          resolve(success);
-        }
-      });
-    });
-
-    const templatePath = path.join(__dirname, '../mails/', template);
-    console.log('Rendering email template from:', templatePath);
-    
+    console.log("Rendering email template...");
+    const templatePath = path.join(__dirname, "../mails/", template);
     const html = await ejs.renderFile(templatePath, data);
 
-    const mailOptions = {
-      from: process.env.SMTP_MAIL,
+    console.log("Sending mail via Resend API...");
+    const response = await resend.emails.send({
+      from: process.env.FROM_EMAIL,
       to: email,
       subject,
       html,
-    };
+    });
 
-    console.log('Sending mail to:', email);
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Mail sent successfully:', info.response);
-    return info;
+    console.log("Mail sent successfully:", response);
+    return response;
   } catch (error) {
-    console.error('Mail sending failed:', error);
+    console.error("Mail sending failed:", error);
     throw error;
   }
 };
