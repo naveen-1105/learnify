@@ -9,7 +9,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sendMail = async (options) => {
-  const transporter = nodemailer.createTransport({
+  try {
+    const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
     service: process.env.SMTP_SERVICE,
@@ -35,6 +36,9 @@ const sendMail = async (options) => {
   };
 
   await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export default sendMail;
