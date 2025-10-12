@@ -19,10 +19,27 @@ app.use(express.json({limit:"50mb"}))
 
 app.use(cookieParser())
 
-app.use(cors({
-    origin: process.env.ORIGIN || "http://localhost:3000",
-  credentials: true
-}));
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://learnify-green-ten.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log('Blocked by CORS for origin:', origin);
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 
 

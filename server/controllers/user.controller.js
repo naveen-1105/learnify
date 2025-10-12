@@ -31,10 +31,12 @@ const createActivationToken = (user) => {
 };
 const registrationUser = CatchAsyncError(async (req, res, next) => {
   try {
+    console.log('Registration attempt for:', req.body.email);
     const { name, email, password, role } = req.body;
 
     const isEmailExist = await userModel.findOne({ email });
     if (isEmailExist) {
+      console.log('Email exists:', email);
       return next(new ErrorHandler("Email already exist", 400));
     }
 
@@ -45,22 +47,25 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
       role,
     };
 
+    console.log('Creating activation token for:', email);
     const activationToken = createActivationToken(user);
     const activationCode = activationToken.activationCode;
 
     const data = { user: { name: user.name }, activationCode };
 
     try {
+      console.log('Attempting to send mail to:', user.email);
       await sendMail({
         email: user.email,
         subject: "Activate your account",
         template: "activation-mail.ejs",
         data,
       });
+      console.log('Mail sent successfully to:', user.email);
       res.cookie("activation_token", activationToken.activationToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 60 * 1000, // 5 hours
-        sameSite: "lax",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
         secure: process.env.NODE_ENV === "production",
       });
 
