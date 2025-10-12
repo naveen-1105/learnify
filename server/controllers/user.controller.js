@@ -55,13 +55,33 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
 
     try {
       console.log('Attempting to send mail to:', user.email);
-      await sendMail({
-        email: user.email,
-        subject: "Activate your account",
-        template: "activation-mail.ejs",
-        data,
+      
+      // Set a timeout for the entire mail sending process
+      const mailTimeout = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error('Mail sending timed out after 15 seconds'));
+        }, 15000);
       });
-      console.log('Mail sent successfully to:', user.email);
+
+      try {
+        // Race between mail sending and timeout
+        await Promise.race([
+          sendMail({
+            email: user.email,
+            subject: "Activate your account",
+            template: "activation-mail.ejs",
+            data,
+          }),
+          mailTimeout
+        ]);
+        
+        console.log('Mail sent successfully to:', user.email);
+      } catch (mailError) {
+        console.error('Mail sending error:', mailError);
+        // Continue with registration even if mail fails
+        console.log('Proceeding with registration despite mail failure');
+      }
+
       res.cookie("activation_token", activationToken.activationToken, {
         httpOnly: true,
         maxAge: 5 * 60 * 60 * 1000, // 5 hours
@@ -71,7 +91,7 @@ const registrationUser = CatchAsyncError(async (req, res, next) => {
 
       res.status(201).json({
         success: true,
-        message: `Please check your email: ${user.email} to create your account!`,
+        message: `Registration successful! Your activation code is: ${activationToken.activationCode}. If you don't receive an email, use this code to activate your account.`,
         activationToken: activationToken.activationToken,
       });
     } catch (error) {
