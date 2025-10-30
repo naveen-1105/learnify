@@ -1,6 +1,6 @@
 
 import express from "express"
-export const app = express()
+
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import { ErrorMiddleware } from "./middleware/error.js";
@@ -14,7 +14,7 @@ import analyticsRouter from "./routes/analytics.route.js";
 import { rateLimit } from 'express-rate-limit'
 dotenv.config()
 
-
+export const app = express()
 app.use(express.json({limit:"50mb"}))
 
 app.use(cookieParser())
@@ -45,7 +45,7 @@ app.use(
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	limit: 2000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 	standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
 	legacyHeaders: false,
 	
@@ -73,7 +73,5 @@ app.get("/test", (req, res, next) => {
 //     err.statusCode = 404;
 //     next(err)
 // })
-
-app.use(limiter)
 
 app.use(ErrorMiddleware);
