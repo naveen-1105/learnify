@@ -10,7 +10,7 @@ import SignUp from "../components/Auth/SignUp";
 import Verification from "../components/Auth/Verification";
 import { useSelector,useDispatch } from "react-redux";
 import Image from "next/image";
-import img from "../assets/img.png";
+import profile from "../assets/profile.jpg";
 import { useSession } from "next-auth/react";
 import {
   useLoginMutation,
@@ -126,7 +126,7 @@ const Header = () => {
               {user ? (
                 <div>
                   <Image
-                    src={user.avatar ? user.avatar.url : img}
+                    src={user.avatar ? user.avatar.url : profile}
                     alt="profile picture"
                     width={30}
                     height={30}
