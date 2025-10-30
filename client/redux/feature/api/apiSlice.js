@@ -7,7 +7,7 @@ export const apiSlice = createApi({
     baseUrl: process.env.NEXT_PUBLIC_SERVER_URL,
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.accessToken; // Get from Redux
+      const token = getState().auth.token; // Get from Redux
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
@@ -16,8 +16,8 @@ export const apiSlice = createApi({
   }),
   endpoints: (builder) => ({
     refreshToken: builder.query({
-      query: (data) => ({
-        url: "refreshToken",
+      query: () => ({
+        url: "/api/v1/refreshToken",
         method: "GET",
         credentials: "include",
       }),
@@ -31,6 +31,7 @@ export const apiSlice = createApi({
             })
           );
         } catch (error) {
+          console.log("Refresh token error:", error);
         }
       },
     }),
@@ -45,7 +46,7 @@ export const apiSlice = createApi({
           const result = await queryFulfilled;
           dispatch(
             userLoggedIn({
-              accessToken: result.data.activationToken,
+              accessToken: result.data.accessToken,
               user: result.data.user,
             })
           );

@@ -37,9 +37,11 @@ const CourseDetailPage = ({ id }) => {
 
   useEffect(() => {
     if (data && data.courseDetails) {
-      const amount = Math.round(data.courseDetails.price);
-      console.log("Creating payment intent for amount:", amount);
-      createPaymentIntent(amount);
+      // Stripe expects amount in the smallest currency unit (cents for USD).
+      // Convert dollars to cents before sending to the server.
+      const amountInCents = Math.round((data.courseDetails.price || 0) * 100);
+      console.log("Creating payment intent for amount (cents):", amountInCents);
+      createPaymentIntent(amountInCents);
     }
   }, [data, createPaymentIntent]);
 
@@ -73,7 +75,7 @@ const CourseDetailPage = ({ id }) => {
       setOpen(true);
     } else {
       // Redirect to login or show login modal
-      window.location.href = "/sign-in";
+      window.location.href = "/login";
     }
   };
 
