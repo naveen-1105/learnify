@@ -8,8 +8,8 @@ const CourseReviews = ({ review,isDynamic }) => {
       {/* Profile section */}
       <div className="flex items-center gap-4 mb-4">
         <img
-          src={isDynamic ? review.user.avatar.url : review.avatar}
-          alt={isDynamic ? review.user.name : review.name}
+          src={review.avatar}
+          alt={review.name}
           className="w-12 h-12 rounded-full object-cover border-2 border-gray-700"
         />
         <div>
