@@ -48,7 +48,7 @@ const Review = ({ courseData, refetchCourse }) => {
             width={30}
             height={30}
             className="rounded-full"
-            src={item.user?.avatar?.url}
+            src={item.user?.avatar}
             alt={item.user?.name || "User Avatar"}
           />
           <span>{item.user?.name}</span>
@@ -108,7 +108,7 @@ const Review = ({ courseData, refetchCourse }) => {
             width={30}
             height={30}
             className="rounded-full"
-            src={reply.user?.avatar?.url}
+            src={reply.user?.avatar}
             alt={reply.user?.name || "User Avatar"}
           />
           <span>{reply.user?.name}</span>
