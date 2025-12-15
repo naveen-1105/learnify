@@ -2,7 +2,6 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import NavItem from "../utils/NavItem";
-import ThemeSwitcher from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
 import CustomModal from "../utils/CustomModal";
 import Login from "../components/Auth/Login";
@@ -29,7 +28,7 @@ const Header = () => {
 
   const handleProfileClick = () => {
     setLoading(true);
-    router.push("/profile"); // navigate programmatically
+    router.push("/profile");
   };
 
   const { open, activeItem, route } = useSelector((state) => state.ui);

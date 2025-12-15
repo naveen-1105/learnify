@@ -76,8 +76,6 @@ courseRouter.delete(
 );
 courseRouter.get(
   "/get-course-details/:id",
-  updateAccessToken,
-  isAuthenticated,
   getCourseDetails
 );
 

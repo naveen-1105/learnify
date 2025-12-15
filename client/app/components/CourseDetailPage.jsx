@@ -16,9 +16,13 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckOutForm from "./Course/CheckOutForm";
 import Link from "next/link";
+import { setOpen, setActiveItem, setRoute } from "../../redux/feature/ui/uiSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 
 const CourseDetailPage = ({ id }) => {
-  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch()
+  const { open, activeItem, route } = useSelector((state) => state.ui);
+  const [Open, setopen] = useState(false);
   const { data, isLoading } = useGetCourseDetailsQuery(id.id);
 
   const [activeVideo, setActiveVideo] = useState();
@@ -55,29 +59,20 @@ const CourseDetailPage = ({ id }) => {
     data: userData,
     isLoading: userLoading,
   } = useLoadUserQuery();
-  console.log(userData);
   
   const user = userData?.user;
 
   const isPurchased = !!(userData && userData?.user.courses && userData?.user.courses.some((item) => item.courseId === id.id));
-  console.log(userData);
 
-
-  const handleOrder = (e) => {
-    console.log("hiii");
-    if (user) {
-      console.log("Checkout values:", {
-        stripePromise: !!stripePromise,
-        clientSecret: clientSecret,
-        open: open,
-        user: !!user
-      });
-      setOpen(true);
-    } else {
-      // Redirect to login or show login modal
-      window.location.href = "/login";
-    }
-  };
+    const handleOrder = () => {
+      // Accept both user.id and user._id for login check
+      if (user && (user.id || user._id)) {
+        setopen(true);
+      } else {
+        dispatch(setRoute("Login"));
+        setopen(true);
+      }
+    };
 
   return (
     <div>
@@ -192,7 +187,7 @@ const CourseDetailPage = ({ id }) => {
         </div>
       )}
       {/* Modal for Checkout Form */}
-      {open && stripePromise && clientSecret && (
+      {Open && stripePromise && clientSecret && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4 relative">
             <button
@@ -212,6 +207,6 @@ const CourseDetailPage = ({ id }) => {
       )}
     </div>
   );
-};
+}
 
 export default CourseDetailPage;
