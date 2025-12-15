@@ -10,28 +10,35 @@ const ThemeSwitcher = () => {
 
     useEffect(() => setMounted(true),[])
 
-    if(!mounted){return null}
-
-  return (
-    <div className='p-[16px]'>
-        {theme === "light" ? (
-            <BiMoon
-            className='cursor-pointer'
-            size={25}
-            onClick={() => {setTheme(theme === 'dark' ? 'light' : 'dark')
-              console.log('hii');
-            }}
-            />
-        ) : (
-            <BiSun
-            className='cursor-pointer'
-            size={25}
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            />
-        )
+    if (!mounted) {
+      // Render a neutral icon or nothing until mounted (avoids SSR mismatch)
+      return (
+        <div className='p-[16px]'>
+          <BiMoon className='opacity-50' size={25} />
+        </div>
+      );
     }
-    </div>
-  )
+
+    const isDark = theme === 'dark';
+    return (
+      <div className='p-[16px]'>
+        {isDark ? (
+          <BiSun
+            className='cursor-pointer'
+            size={25}
+            onClick={() => setTheme('light')}
+            title='Switch to light mode'
+          />
+        ) : (
+          <BiMoon
+            className='cursor-pointer'
+            size={25}
+            onClick={() => setTheme('dark')}
+            title='Switch to dark mode'
+          />
+        )}
+      </div>
+    );
 }
 
 export default ThemeSwitcher
