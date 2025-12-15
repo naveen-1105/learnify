@@ -24,7 +24,7 @@ const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const [logout] = useLogoutMutation();
 
-  const [avatarPreview, setAvatarPreview] = useState(user.avatar?.url || "");
+  const [avatarPreview, setAvatarPreview] = useState(user.avatar || "");
   const [selectedFile, setSelectedFile] = useState(null);
   const [avatarChange, setAvatarChange] = useState(false);
   const [updateAvatar, { isSuccess }] = useUpdateAvatarMutation();
