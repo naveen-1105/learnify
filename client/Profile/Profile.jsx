@@ -110,7 +110,7 @@ const Profile = () => {
       </div>
       {
         sidebarCollapsed && 
-        <div className={`sm:w-[20%] sm:h-[80%] w-[70%] h-auto  sm:ml-[30px] ml-[10px] mt-[10px] rounded-[10px] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 ${sidebarCollapsed ? 'sm:flex' : 'hidden'}  flex-col justify-center items-center sm:relative absolute z-9999999999 top-[30px]`}>
+        <div className={`sm:w-[20%] sm:h-[80%] w-[70%] h-auto  sm:ml-[30px] ml-[10px] mt-[10px] rounded-[10px] bg-gradient-to-b from-gray-800 to-gray-900 ${sidebarCollapsed ? 'sm:flex' : 'hidden'}  flex-col justify-center items-center sm:relative absolute z-9999999999 top-[30px]`}>
         <div className="w-full p-[10px] flex gap-[10px] items-center">
           {avatarPreview ? (
             <Image
@@ -123,7 +123,7 @@ const Profile = () => {
           ) : (
             <HiOutlineUserCircle
               size={30}
-              className="hidden md:block align-bottom cursor-pointer dark:text-white text-black"
+              className="hidden md:block align-bottom cursor-pointer text-white "
             />
           )}
           <p className="text-black dark:text-white text-[20px]">My account</p>

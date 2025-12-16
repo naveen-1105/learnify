@@ -23,7 +23,7 @@ const CourseCard = ({course,index}) => {
                     />
                   </div>
                   <div className='flex flex-col w-full'>
-                    <p className="font-medium sm:text-[20px] text-[14px]">{course.name}</p>
+                    <p className="font-medium sm:text-[20px] text-white text-[14px]">{course.name}</p>
                     <div className="flex justify-between text-[14px]">
                       <Ratings rating={course.ratings} starSize={18} />
                       <p>{course.purchased} Students</p>
