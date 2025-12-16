@@ -13,7 +13,7 @@ const Page = () => {
   
 
   return (
-    <div className="w-full min-h-screen dark:bg-gradient-to-b bg-white dark:from-gray-900 dark:to-black overflow-x-hidden">
+    <div className="w-full min-h-screen bg-gradient-to-b from-gray-900 to-black overflow-x-hidden">
       <MetaData
         title="Learnify"
         description="Learnify is a comprehensive learning platform."

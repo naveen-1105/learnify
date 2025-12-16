@@ -18,6 +18,7 @@ import CheckOutForm from "./Course/CheckOutForm";
 import Link from "next/link";
 import { setOpen, setActiveItem, setRoute } from "../../redux/feature/ui/uiSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const CourseDetailPage = ({ id }) => {
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const CourseDetailPage = ({ id }) => {
 
   useEffect(() => {
     if (StripePublishableKey?.publishablekey) {
-      console.log("Setting up Stripe with key:", StripePublishableKey.publishablekey);
+      // console.log("Setting up Stripe with key:", StripePublishableKey.publishablekey);
       setStripePromise(loadStripe(StripePublishableKey.publishablekey));
     }
   }, [StripePublishableKey]);
@@ -73,6 +74,12 @@ const CourseDetailPage = ({ id }) => {
         setopen(true);
       }
     };
+
+  // Handler for successful payment
+  const handlePaymentSuccess = () => {
+    toast.success("Course purchased successfully!");
+    setopen(false);
+  };
 
   return (
     <div>
@@ -200,7 +207,7 @@ const CourseDetailPage = ({ id }) => {
               Complete Payment
             </h3>
             <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <CheckOutForm setOpen={setOpen} data={data} />
+              <CheckOutForm setOpen={setOpen} data={data} onSuccess={handlePaymentSuccess} />
             </Elements>
           </div>
         </div>

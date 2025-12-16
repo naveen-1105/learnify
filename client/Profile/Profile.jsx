@@ -140,7 +140,7 @@ const Profile = () => {
             <TbLockCog size={30} /> <span>Change Password</span>
           </p>
           <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer">
-            <SiCoursera size={26} /> <span>Enrolled courses</span>
+            <SiCoursera size={26} /> <Link href={'/enrolled-courses'}>Enrolled courses</Link>
           </p>
           {(user.role === "admin" || user.role === "teacher") && (
             <Link

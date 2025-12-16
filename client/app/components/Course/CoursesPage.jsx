@@ -5,6 +5,7 @@ import Loader from "../Loader";
 import CourseCard from "./CourseCard.jsx";
 import { useSearchParams } from "next/navigation";
 import { CleanHands } from "@mui/icons-material";
+import Link from "next/link";
 
 const CoursesPage = () => {
   const { isLoading, data, error } = useGetAllCoursesQuery();
@@ -222,7 +223,9 @@ const CoursesPage = () => {
                   </span>
                 )}
               </button>
+              
             ))}
+            <Link href='/enrolled-courses'>Enrolled Courses</Link>
           </div>
         </div>
 

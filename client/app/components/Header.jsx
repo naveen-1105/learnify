@@ -97,8 +97,8 @@ const Header = () => {
           <div
         className={`top-0 left-0 w-full h-[80px] z-[80] transition duration-500 ${
           active
-            ? "bg-gradient-to-b from-gray-900 to-black shadow-xl dark:border-[#ffffff1c]"
-            : "border-b dark:border-[#ffffff1c] dark:shadow bg-white dark:bg-[#111827]"
+            ? "bg-gradient-to-b from-gray-900 to-black shadow-xl border-[#ffffff1c]"
+            : "border-b border-[#ffffff1c] shadow bg-[#111827]"
         }`}
       >
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
@@ -107,7 +107,7 @@ const Header = () => {
               <Link
                 href={"/"}
                 className={
-                  "text-[25px] font-Poppins font-[500] text-black dark:text-white"
+                  "text-[25px] font-Poppins font-[500] text-white"
                 }
                 onClick={() => dispatch(setActive(0))}
               >
@@ -125,7 +125,7 @@ const Header = () => {
               <div className="md:hidden">
                 <HiOutlineMenuAlt3
                   size={25}
-                  className="cursor-pointer dark:text-white text text-black "
+                  className="cursor-pointertext-white "
                   onClick={() => setOpenSidebar(true)}
                 />
               </div>
@@ -143,7 +143,7 @@ const Header = () => {
               ) : (
                 <HiOutlineUserCircle
                   size={25}
-                  className=" md:block cursor-pointer dark:text-white text text-black "
+                  className=" md:block cursor-pointer text-white "
                   onClick={() => dispatch(setOpen(true))}
                 />
               )}
@@ -152,7 +152,7 @@ const Header = () => {
         </div>
         {openSidebar && (
           <div
-            className="fixed w-full h-screen top-0 left-0  dark:bg-[unset] bg-[#00000024] z-999999999"
+            className="fixed w-full h-screen top-0 left-0  bg-[unset] z-999999999"
             onClick={handleClose}
             id="screen"
           >
@@ -177,13 +177,13 @@ const Header = () => {
               ) : (
                 <HiOutlineUserCircle
                   size={25}
-                  className="left-[20px] md:block cursor-pointer dark:text-white text text-black "
+                  className="left-[20px] md:block cursor-pointer text-white "
                   onClick={() => dispatch(setOpen(true))}
                 />
               )}
               <br />
               <br />
-              <p className="ml-5 my-2 text-black dark:text-white">
+              <p className="ml-5 my-2 text-white">
                 Copyright © 2025 Learnify
               </p>
             </div>

@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.className} ${josefin.className} !bg-white bg-no-repeat dark:bg-gradient-to-b dark:from-gray-900 dark:to-black duration-300`}
+        className={`${poppins.className} ${josefin.className} !bg-white bg-no-repeat bg-gradient-to-b from-gray-900 to-black duration-300`}
       >
         <Providers>
           <SessionProvider>

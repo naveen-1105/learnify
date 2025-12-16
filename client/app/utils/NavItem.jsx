@@ -28,8 +28,8 @@ const NavItem = ({ activeItem, isMobile,setActiveItem }) => {
               <span
                 className={`${
                   activeItem === index
-                    ? "dark:text-[#37a39a] text-[crimson]"
-                    : "dark:text-white text-black"
+                    ? "text-[#37a39a]"
+                    : "text-white"
                 } text-[18px] px-6 font-Poppins font-[400]`
               }onClick={() => {
                 setActiveItem(index)
