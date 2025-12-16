@@ -26,6 +26,11 @@ import Loader from "./Loader";
 const Header = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleProfileClick = () => {
     setLoading(true);
@@ -116,7 +121,7 @@ const Header = () => {
                 setActiveItem={(item) => dispatch(setActiveItem(item))}
                 isMobile={false}
               />
-              <ThemeSwitcher />
+              {isMounted && <ThemeSwitcher />}
               <div className="md:hidden">
                 <HiOutlineMenuAlt3
                   size={25}
