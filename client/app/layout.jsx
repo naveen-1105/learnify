@@ -32,11 +32,6 @@ export default function RootLayout({ children }) {
       >
         <Providers>
           <SessionProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem={true}
-            >
               <Toaster 
                 position="top-center" 
                 reverseOrder={false}
@@ -45,7 +40,6 @@ export default function RootLayout({ children }) {
                 }}
               />
               <Custom>{children}</Custom>
-            </ThemeProvider>
           </SessionProvider>
         </Providers>
       </body>

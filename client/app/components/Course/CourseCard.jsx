@@ -30,11 +30,12 @@ const CourseCard = ({course,index}) => {
                     </div>
                     <div className="w-full flex items-center justify-between pt-3">
                       <div className="flex">
-                        <h3 className="text-black dark:text-[#fff] sm:text-[20px] text-[14px]">Rs.
-                          {course.price === 0 ? "Free" : course.price}
-                        </h3>
-                        <h5 className="pl-3 text-[14px] mt-[-5px] line-through opacity-80 text-black dark:text-[#fff]">
+                        <h3 className="text-white sm:text-[20px] text-[14px]">
                           Rs.{course.estimatedPrice}
+                        </h3>
+                        <h5 className="pl-3 text-[14px] mt-[-5px] line-through opacity-80 text-[#fff]">
+                          Rs.
+                          {course.price === 0 ? "Free" : course.price}
                         </h5>
                       </div>
                       <div className="flex items-center pb-3 sm:text-[20px] text-[14px]">

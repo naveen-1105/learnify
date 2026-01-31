@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React, { useState } from "react";
-import ThemeSwitcher from "./ThemeSwitcher";
 import Loader from "../components/Loader";
 
 const NavItemsData = [

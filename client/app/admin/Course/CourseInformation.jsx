@@ -56,7 +56,7 @@ const CourseInformation = ({
     <div className="w-[80%] m-auto mt-24">
       <form
         onSubmit={handleSubmit}
-        className=" block mb-2 font-medium text-gray-700 dark:text-white"
+        className=" block mb-2 font-medium text-white"
       >
         <div>
           <label htmlFor="">Course Name</label>
@@ -70,7 +70,7 @@ const CourseInformation = ({
             }
             id="name"
             placeholder="MERN stack LMS platform with next 13"
-            className=" border w-[100%] block mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
+            className=" border w-[100%] block mb-2 p-[2px] font-medium text-white"
           />
         </div>
         <br />
@@ -87,7 +87,7 @@ const CourseInformation = ({
             }
             id="name"
             placeholder="Write an amazing description for your course..."
-            className=" border overflow-hidden w-[100%] block mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
+            className=" border overflow-hidden w-[100%] block mb-2 p-[2px] font-medium text-white"
           />
         </div>
         
@@ -105,7 +105,7 @@ const CourseInformation = ({
             }
             id="name"
             placeholder="In Rupees"
-            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
+            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-white"
           />
         </div>
         <div className="w-[50%]">
@@ -120,7 +120,7 @@ const CourseInformation = ({
             }
             id="name"
             placeholder="In Rupees"
-            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
+            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-white"
           />
         </div>
         </div>
@@ -152,7 +152,7 @@ const CourseInformation = ({
             }
             id="name"
             placeholder=""
-            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-gray-700 dark:text-white"
+            className=" border overflow-hidden block w-[100%] mb-2 p-[2px] font-medium text-white"
           />
         </div>
         </div>
@@ -163,7 +163,7 @@ const CourseInformation = ({
         id="file"
         className="hidden"
         onChange={handleFileChange}/>
-        <label htmlFor="file" className={`w-full min-h-[10vh] dark:border-white border-[#00000026] p-3 border flex items-center justify-center ${
+        <label htmlFor="file" className={`w-full min-h-[10vh]border-white p-3 border flex items-center justify-center ${
           dragging ? 'bg-blue-500' : 'bg-transparent'
         }`}
         onDragOver={handleDragOver}
@@ -173,7 +173,7 @@ const CourseInformation = ({
             courseInfo.thumbnail ? (
               <img src={courseInfo.thumbnail} className ="max-h-full w-full object-cover" alt=""/>
             ) : (
-              <span className="text-black dark:text-white">
+              <span className="text-white">
                 Drag and drop your thumbnail here or click to browse
               </span>
             )

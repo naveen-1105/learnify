@@ -154,13 +154,13 @@ const CoursesPage = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center bg-gradient-to-tl from-blue-950 to-black">
-      <h1 className="sm:text-[32px] text-[20px] font-bold mt-[20px]">
+      <h1 className="sm:text-[32px] text-[20px] font-bold mt-[20px] text-white">
         Expand Your Career{" "}
         <span className="bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent">
           Opportunity
         </span>
       </h1>
-      <h1 className="sm:text-[32px] text-[20px] font-bold mb-6">
+      <h1 className="sm:text-[32px] text-[20px] font-bold mb-6 text-white">
         With Our Courses
       </h1>
 

@@ -28,12 +28,12 @@ return (
                 
             </div>
             <div className="flex flex-col w-full sm:gap-0 gap-[20px] sm:mt-0 mt-[20px] sm:w-1/2 text-center sm:text-left">
-                <h1 className="text-3xl sm:text-4xl lg:text-[56px] font-bold leading-tight">
+                <h1 className="text-3xl sm:text-4xl lg:text-[56px] font-bold leading-tight text-white">
                     Improve Your Online <br className="hidden sm:block" />
                     Learning Experience <br className="hidden sm:block" /> 
                     Better Instantly{" "}
                 </h1>
-                <p className="text-sm sm:text-base py-4 sm:py-[20px] max-w-[600px]">
+                <p className="text-sm sm:text-base py-4 sm:py-[20px] max-w-[600px] text-white">
                     We have 40k+ Online courses & 500k+ Online registered student. Find
                     your desired Courses from them.
                 </p>
@@ -51,7 +51,7 @@ return (
                                 <Image src={img3} width={30} height={30} alt="User Avatar 3" className="object-cover" />
                             </div>
                         </div>
-                        <p className="font-josefin ml-[70px] text-sm sm:text-base">
+                        <p className="font-josefin ml-[70px] text-sm sm:text-base text-white">
                             500k+ people already trusted us!{" "}
                             <Link href={"/"} className="dark:text-green-600 text-blue-700 hover:underline">
                                 View Courses

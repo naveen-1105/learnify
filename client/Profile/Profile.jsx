@@ -22,9 +22,10 @@ import { BiMenu, BiMenuAltLeft } from "react-icons/bi";
 const Profile = () => {
   const [sidebarCollapsed, setSideBarCollapse] = useState(true);
   const { user } = useSelector((state) => state.auth);
+  console.log(user);
   const [logout] = useLogoutMutation();
 
-  const [avatarPreview, setAvatarPreview] = useState(user.avatar || "");
+  const [avatarPreview, setAvatarPreview] = useState(user.avatar.url || "");
   const [selectedFile, setSelectedFile] = useState(null);
   const [avatarChange, setAvatarChange] = useState(false);
   const [updateAvatar, { isSuccess }] = useUpdateAvatarMutation();
@@ -111,7 +112,7 @@ const Profile = () => {
       {
         sidebarCollapsed && 
         <div className={`sm:w-[20%] sm:h-[80%] w-[70%] h-auto  sm:ml-[30px] ml-[10px] mt-[10px] rounded-[10px] bg-gradient-to-b from-gray-800 to-gray-900 ${sidebarCollapsed ? 'sm:flex' : 'hidden'}  flex-col justify-center items-center sm:relative absolute z-9999999999 top-[30px]`}>
-        <div className="w-full p-[10px] flex gap-[10px] items-center">
+        <div className="w-full p-[10px] flex gap-[10px] items-center ">
           {avatarPreview ? (
             <Image
               src={avatarPreview}
@@ -126,12 +127,12 @@ const Profile = () => {
               className="hidden md:block align-bottom cursor-pointer text-white "
             />
           )}
-          <p className="text-black dark:text-white text-[20px]">My account</p>
+          <p className="text-white text-[20px]">My account</p>
         </div>
 
-        <div className="w-[95%] h-[90%] m-[6px] p-[10px] rounded-[6px] bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-950">
+        <div className="w-[95%] h-[90%] m-[6px] p-[10px] rounded-[6px] bg-gradient-to-b from-gray-900 to-gray-950">
           <p
-            className="flex items-end gap-[10px] my-[20px] cursor-pointer"
+            className="flex items-end gap-[10px] my-[20px] cursor-pointer text-white"
             onClick={() => {
               setIsUpdatePassword(true);
               setAvatarChange(false);
@@ -139,19 +140,19 @@ const Profile = () => {
           >
             <TbLockCog size={30} /> <span>Change Password</span>
           </p>
-          <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer">
+          <p className="flex items-end gap-[10px] mb-[20px] cursor-pointer text-white">
             <SiCoursera size={26} /> <Link href={'/enrolled-courses'}>Enrolled courses</Link>
           </p>
           {(user.role === "admin" || user.role === "teacher") && (
             <Link
               href={"/admin"}
-              className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
+              className="flex items-end gap-[10px] mb-[20px] cursor-pointer text-white"
             >
               <MdOutlineAdminPanelSettings size={30} /> <span>Admin dashboard</span>
             </Link>
           )}
           <p
-            className="flex items-end gap-[10px] mb-[20px] cursor-pointer"
+            className="flex items-end gap-[10px] mb-[20px] cursor-pointer text-white"
             onClick={logoutHandler}
           >
             <AiOutlineLogout size={30} /> <span>Logout</span>
@@ -210,7 +211,7 @@ const Profile = () => {
               ) : (
                 <HiOutlineUserCircle
                   size={100}
-                  className="dark:text-white text-black"
+                  className="text-white "
                 />
               )}
 
@@ -237,7 +238,7 @@ const Profile = () => {
             />
 
             <div className="w-[80%] flex flex-col items-center">
-              <p className="self-start ml-[100px]">Full Name</p>
+              <p className="self-start ml-[100px] text-white">Full Name</p>
               <input
                 type="text"
                 value={name}
@@ -250,7 +251,7 @@ const Profile = () => {
             </div>
 
             <div className="w-[80%] flex flex-col items-center">
-              <p className="self-start ml-[100px]">Email</p>
+              <p className="self-start ml-[100px] text-white">Email</p>
               <input
                 type="email"
                 value={user.email}

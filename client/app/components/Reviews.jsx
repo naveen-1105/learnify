@@ -61,19 +61,19 @@ const Reviews = () => {
         <div className="flex sm:flex-row flex-col sm:w-full w-[400px]">
           <Image src={reviewsImg} width={800} height={800} />
           <div className="flex flex-col items-center justify-center">
-            <h1 className="sm:text-[32px] text-[24px] font-bold">
+            <h1 className="sm:text-[32px] text-[24px] font-bold text-white">
               Our Students Are{" "}
               <span className="bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent">
                 Our Strength
               </span>
             </h1>
-            <h1 className="sm:text-[32px] text-[24px] font-bold">
+            <h1 className="sm:text-[32px] text-[24px] font-bold text-white">
               See what they Say About Us
             </h1>
             <br />
             <br />
             <br />
-            <p className="sm:text-[20px] text-[16px] sm:text-left text-center sm:p-0 p-[20px]">
+            <p className="sm:text-[20px] text-[16px] sm:text-left text-center sm:p-0 p-[20px] text-white">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint,
               facere impedit. Explicabo dignissimos eius est voluptatibus optio
               labore libero voluptatum necessitatibus sint laboriosam, at

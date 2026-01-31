@@ -20,7 +20,6 @@ import toast from "react-hot-toast";
 import { useLoadUserQuery } from "../../redux/feature/api/apiSlice";
 import { redirect,useRouter } from "next/navigation";
 import { setOpen, setActiveItem, setRoute } from "../../redux/feature/ui/uiSlice.js";
-import ThemeSwitcher from "../utils/ThemeSwitcher";
 import Loader from "./Loader";
 
 const Header = () => {
@@ -121,7 +120,6 @@ const Header = () => {
                 setActiveItem={(item) => dispatch(setActiveItem(item))}
                 isMobile={false}
               />
-              {isMounted && <ThemeSwitcher />}
               <div className="md:hidden">
                 <HiOutlineMenuAlt3
                   size={25}

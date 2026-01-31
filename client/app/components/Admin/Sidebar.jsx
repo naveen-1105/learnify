@@ -24,7 +24,6 @@ import avatarDefault from "../../assets/img3.png";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   return (
@@ -44,14 +43,6 @@ const Sidebar = () => {
   const [logout, setLogout] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) {
-    return null;
-  }
 
   const logoutHandler = () => {
     setLogout(true);
@@ -60,29 +51,27 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        "& .pro-sidebar-inner": {
-          background: `${
-            theme === "dark" ? "#111C43 !important" : "#fff !important"
-          }`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#868dfb !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#6870fa !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-          opacity: 1,
-        },
-        "& .pro-menu-item": {
-          color: `${theme !== "dark" && "#000"}`,
-        },
-      }}
-      className="!bg-white dark:bg-[#111C43]"
+  "& .pro-sidebar-inner": {
+    background: "linear-gradient(180deg, #212529 0%, #000000 100%) !important",
+  },
+  "& .pro-icon-wrapper": {
+    backgroundColor: "transparent !important",
+  },
+  "& .pro-inner-item:hover": {
+    color: "#868dfb !important",
+  },
+  "& .pro-menu-item.active": {
+    color: "#6870fa !important",
+  },
+  "& .pro-inner-item": {
+    padding: "5px 35px 5px 20px !important",
+    opacity: 1,
+  },
+  "& .pro-menu-item": {
+    color: "#fff",
+  },
+}}
+      className="bg-white"
     >
       <ProSidebar
         collapsed={isCollapsed}
@@ -111,7 +100,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Link href="/" className="block">
-                  <h3 className="text-[25px] font-Poppins dark:text-white text-black">
+                  <h3 className="text-[25px] font-Poppins text-white">
                     Learnify
                   </h3>
                 </Link>
@@ -119,7 +108,7 @@ const Sidebar = () => {
                   onClick={() => setIsCollapsed(!isCollapsed)}
                   className="inline-block"
                 >
-                  <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
+                  <ArrowBackIosIcon className="text-white" />
                 </IconButton>
               </Box>
             )}
@@ -143,7 +132,7 @@ const Sidebar = () => {
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="!text-[20px] text-black dark:text-[#ffffffc1]"
+                  className="!text-[20px] text-white"
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user?.name}
@@ -151,7 +140,7 @@ const Sidebar = () => {
                 <Typography
                   variant="h6"
                   sx={{ m: "10px 0 0 0" }}
-                  className="text-[20px] text-black dark:text-[#ffffffc1]"
+                  className="text-[20px] text-white"
                 >
                   Role - {user?.role}
                 </Typography>
@@ -171,7 +160,7 @@ const Sidebar = () => {
             <Typography
               variant="h5"
               sx={{ m: "15px 0 5px 25px" }}
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-white capitalize !font-[400]"
             >
               {!isCollapsed && "Data"}
             </Typography>
@@ -193,7 +182,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h5"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-white capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Content"}
@@ -213,11 +202,9 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-          
-            
             <Typography
               variant="h5"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-white capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Controllers"}
@@ -232,7 +219,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-white capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Analytics"}
@@ -262,7 +249,7 @@ const Sidebar = () => {
 
             <Typography
               variant="h6"
-              className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
+              className="!text-[18px] text-white capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
               {!isCollapsed && "Extras"}

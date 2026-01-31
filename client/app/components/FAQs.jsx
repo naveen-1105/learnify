@@ -20,7 +20,7 @@ const FAQs = () => {
     }, [isLoading, data]);
   return (
     <div className='flex flex-col justify-center items-center w-full min-h-screen  bg-gradient-to-tl from-violet-950 to-black '>
-    <h1 className='w-full sm:text-[32px] text-[24px] font-bold mt-[100px] text-center'>Frequently Asked Questions</h1>
+    <h1 className='w-full sm:text-[32px] text-[24px] font-bold mt-[100px] text-center text-white'>Frequently Asked Questions</h1>
         {FAQLoading ? (
         <Loader />
       ) : data?.FAQs?.length > 0 ? (

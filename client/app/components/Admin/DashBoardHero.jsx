@@ -19,7 +19,6 @@ const DashboardHero = () => {
 
   useEffect(() => {
     if (data && ordersData) {
-      console.log(data?.users?.last12Months.slice(-2));
       const usersLastTwoMonths = data?.users?.last12Months.slice(-2);
       const ordersLastTwoMonths = ordersData?.orders?.last12Months.slice(-2);
 
@@ -64,7 +63,7 @@ const DashboardHero = () => {
         </div>
         <div className="w-[20%] flex flex-col gap-[10px] h-[300px]">
           <div className="w-full flex bg-gray-800 h-[50%] p-[20px]">
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between text-white">
               <SlGraph />
               <p>{userComparePercentage?.percentChange}</p>
               <p>User Joined</p>
@@ -78,7 +77,7 @@ const DashboardHero = () => {
             </div>
           </div>
           <div className="w-full flex bg-gray-800 h-[50%] p-[20px]">
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between text-white">
               <SlGraph />
               <p>{ordersComparePercentage?.percentChange}</p>
               <p>Sales Obtained</p>

@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import ThemeSwitcher from "../../../app/utils/ThemeSwitcher";
 import socketIO from "socket.io-client";
 import {
   useGetAllNotificationsQuery,
@@ -66,7 +65,6 @@ const DashBoard = () => {
 
   return (
     <div className="flex w-full h-1/25 justify-end items-center pr-[20px] pt-[20px] relative z-999999999">
-      <ThemeSwitcher />
 
       <Badge badgeContent={notifications.length} color="success">
         <NotificationsIcon
