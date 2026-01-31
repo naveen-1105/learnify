@@ -25,7 +25,7 @@ const Profile = () => {
   console.log(user);
   const [logout] = useLogoutMutation();
 
-  const [avatarPreview, setAvatarPreview] = useState(user.avatar.url || "");
+  const [avatarPreview, setAvatarPreview] = useState(user.avatar?.url || "");
   const [selectedFile, setSelectedFile] = useState(null);
   const [avatarChange, setAvatarChange] = useState(false);
   const [updateAvatar, { isSuccess }] = useUpdateAvatarMutation();
