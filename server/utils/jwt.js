@@ -32,7 +32,8 @@ export const sendToken = (user, statusCode, res) => {
   const accessToken = user.SignAccessToken();
   const refreshToken = user.SignRefreshToken();
 
-  redis.set(String(user._id), JSON.stringify(user));
+  // Set the user data in Redis with an expiration time
+  redis.set(String(user._id), JSON.stringify(user), "EX", refreshTokenExpire / 1000);
 
   if (process.env.NODE_ENV === "production") {
     accessTokenOptions.secure = true;
