@@ -1,8 +1,8 @@
-# 🚀 E-learning - Learning Management System
+# 🚀 Learnify - Learning Management System
 
 ## 🌟 Introduction
 
-E-learning is a comprehensive Learning Management System (LMS) built with modern technologies. It provides a robust platform for creating, managing, and delivering online courses with features like user authentication, course management, real-time notifications, and advanced administrative controls.
+Learnify is a comprehensive Learning Management System (LMS) built with modern technologies. It provides a robust platform for creating, managing, and delivering online courses with features like user authentication, course management, real-time notifications, and advanced administrative controls.
 
 ## ✨ Features
 
@@ -65,7 +65,7 @@ E-learning is a comprehensive Learning Management System (LMS) built with modern
 
 ## 🌐 Live Preview
 
-[Visit E-learning](https://learnify-green-ten.vercel.app/)
+[Visit Learnify](https://learnify-green-ten.vercel.app/)
 
 ## 🛠️ Tech Stack
 
