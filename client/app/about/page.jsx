@@ -10,7 +10,7 @@ const page = () => {
       <Header />
       <div className="w-full sm:flex sm:flex-col items-center p-[20px]">
         
-        <p className="w-full sm:w-[50%] sm:text-left text-center">
+        <p className="w-full sm:w-[50%] sm:text-left text-center text-white">
           <span className="text-[32px] bg-gradient-to-r from-blue-600 to-violet-500 bg-clip-text text-transparent">
             About Learnify
           </span>
